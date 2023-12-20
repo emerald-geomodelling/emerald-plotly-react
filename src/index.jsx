@@ -1,3 +1,3 @@
-import BasePlot from "./components/BasePlot";
+import InteractivePlot from "./components/InteractivePlot";
 
-export default BasePlot;
+export { InteractivePlot };

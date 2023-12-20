@@ -5,7 +5,7 @@ import {
   handlePlotElementClick,
   setSubplotPositioningFromDOM,
 } from "../../handlers";
-import { usePlotConfiguration } from "../../hooks/usePlotConfiguration";
+import { usePlotConfiguration } from "../../hooks";
 
 const BasePlot = ({
   context,
