@@ -2,13 +2,22 @@
   "name": "emerald-plotly-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:css && babel src --out-dir dist --extensions '.jsx,.js' --copy-files",
+    "build:css": "npx postcss styles/index.css -o dist/styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emerald-geomodelling/emerald-plotly-react"
   },
   "keywords": [],
   "author": "redhog, martineho",
   "license": "MIT",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -17,6 +26,12 @@
     "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.6",
     "@babel/preset-env": "^7.23.6",
-    "@babel/preset-react": "^7.23.3"
+    "@babel/preset-react": "^7.23.3",
+    "postcss-cli": "^11.0.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0"
   }
 }
