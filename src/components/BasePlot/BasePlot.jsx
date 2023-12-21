@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 
-import {
-  handlePlotElementClick,
-  setSubplotPositioningFromDOM,
-} from "../../handlers";
+import { handlePlotElementClick } from "../../handlers";
 import { usePlotConfiguration } from "../../hooks";
+import { calculatePlotElementsPositions } from "../../utils";
+
+import CustomMenu from "../CustomMenu";
 
 const BasePlot = ({
   context,
   plot,
   elements,
-  setSubplotPositioning,
   subplotZooms,
   showLegend,
   children,
@@ -34,15 +33,6 @@ const BasePlot = ({
     setPlotConfig
   );
 
-  const onUpdate = () => {
-    setSubplotPositioningFromDOM(
-      plotRef,
-      plot,
-      plotConfig,
-      setSubplotPositioning
-    );
-  };
-
   useEffect(() => {
     if (!plotRef.current) return;
     plotRef.current.addEventListener(
@@ -53,6 +43,18 @@ const BasePlot = ({
       true
     );
   }, [plotRef]);
+
+  const [subplotPositions, setSubplotPositions] = useState([]);
+
+  const onAfterPlot = () => {
+    if (plotRef.current && plotConfig && plotConfig.layout) {
+      const positions = calculatePlotElementsPositions(
+        plotRef.current,
+        plotConfig.layout
+      );
+      setSubplotPositions(positions);
+    }
+  };
 
   const handleSelected = (eventData) => {
     const serialized = JSON.stringify(eventData?.selections);
@@ -81,10 +83,14 @@ const BasePlot = ({
         onClick={(ev) => {
           handlePlotElementClick(ev, elements, context);
         }}
-        onAfterPlot={onUpdate}
+        onAfterPlot={onAfterPlot}
         onSelected={handleSelected}
         {...restProps}
       />
+
+      {subplotPositions.map((element, index) => (
+        <CustomMenu key={index} element={element} />
+      ))}
     </div>
   );
 };
