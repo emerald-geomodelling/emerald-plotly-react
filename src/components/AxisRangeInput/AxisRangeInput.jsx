@@ -1,102 +1,106 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
-const AxisRangeInput = ({
-  subplotZooms,
-  setSubplotZooms,
-  axis = "x",
-  handleZoomFn,
-  axisName,
-  resetAxisRange,
-  setShowAxisRangeInput,
-  clickPosition,
-}) => {
+import { resetAxis, setAxisZoomRange } from "../../handlers";
+import { useRightClickAxis } from "../../hooks";
+
+const useOutsideClick = (onOutsideClick) => {
+  const ref = useRef(null);
+
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onOutsideClick();
+      }
+    },
+    [onOutsideClick]
+  );
+
+  useCallback(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
+  return ref;
+};
+
+export const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
+  const {
+    showAxisRangeInput,
+    axisRangeInputPosition,
+    clickedAxis,
+    clickedAxisType,
+    setShowAxisRangeInput,
+  } = useRightClickAxis(plotRef);
+
   const [desiredRange, setDesiredRange] = useState("");
   const [desiredRangeMin, setDesiredRangeMin] = useState("");
 
   const boxWidth = 208;
   const boxHeight = 81.5;
 
-  const righClickContainerRef = useRef(null);
-
+  console.log(subplotZooms);
   const handleZoomChange = () => {
+    console.log(clickedAxis, desiredRange, desiredRangeMin, subplotZooms);
     setShowAxisRangeInput(false);
-    if (handleZoomFn) {
-      handleZoomFn({
+    if (setAxisZoomRange) {
+      setAxisZoomRange({
         setSubplotZooms,
         subplotZooms,
         desiredRange,
         desiredRangeMin,
-        axisName,
+        axisName: clickedAxis,
       });
     }
   };
 
   const handleResetAxis = () => {
     setShowAxisRangeInput(false);
-    if (resetAxisRange) {
-      resetAxisRange({
+    if (resetAxis) {
+      resetAxis({
         setSubplotZooms,
         subplotZooms,
-        axisName,
+        axisName: clickedAxis,
       });
     }
   };
 
-  useEffect(() => {
-    function handleOutsideClick(event) {
-      if (
-        righClickContainerRef.current &&
-        !righClickContainerRef.current.contains(event.target)
-      ) {
-        setShowAxisRangeInput(false);
-        if (handleZoomFn) {
-          handleZoomFn({
-            setSubplotZooms,
-            subplotZooms,
-            desiredRange,
-            desiredRangeMin,
-            axisName,
-          });
-        }
-      }
+  const rightClickContainerRef = useOutsideClick(handleZoomChange);
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleZoomChange();
     }
+  };
 
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [
-    subplotZooms,
-    desiredRange,
-    desiredRangeMin,
-    axisName,
-    handleZoomFn,
-    setSubplotZooms,
-    setShowAxisRangeInput,
-  ]);
-
+  if (!showAxisRangeInput) {
+    return null;
+  }
   return (
     <div
-      ref={righClickContainerRef}
+      ref={rightClickContainerRef}
       className="axisRangeInput absolute drop-shadow-xl bg-white rounded-lg border border-gray-100 flex flex-col gap-2 p-2 px-2"
       style={{
         width: boxWidth,
         height: boxHeight,
-        top: `${clickPosition.y}px`,
-        left: `${clickPosition.x}px`,
+        top: `${axisRangeInputPosition.y}px`,
+        left: `${axisRangeInputPosition.x}px`,
         zIndex: 1000,
       }}
     >
       <label className="text-gray-600 text-sm text-center">Axis range</label>
       <form className="flex gap-1" onSubmit={(e) => e.preventDefault()}>
         <input
-          name={`${axis}-min`}
+          name={`${clickedAxisType}-min`}
           type="number"
-          placeholder={`${axis}-min`}
+          placeholder={`${clickedAxisType}-min`}
           value={desiredRangeMin}
           onChange={(e) => setDesiredRangeMin(parseFloat(e.target.value))}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleKeyPress(e);
+          }}
           className={`
           block w-full rounded-md placeholder:text-gray-500 
           focus:ring-0 focus:ring-inset sm:leading-6 focus:outline-none 
@@ -105,11 +109,14 @@ const AxisRangeInput = ({
         `}
         />
         <input
-          name={`${axis}-max`}
+          name={`${clickedAxisType}-max`}
           type="number"
-          placeholder={`${axis}-max`}
+          placeholder={`${clickedAxisType}-max`}
           value={desiredRange}
           onChange={(e) => setDesiredRange(parseFloat(e.target.value))}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleKeyPress(e);
+          }}
           className={`
           block w-full rounded-md placeholder:text-gray-500 
           focus:ring-0 focus:ring-inset sm:leading-6 focus:outline-none 
@@ -125,5 +132,3 @@ const AxisRangeInput = ({
     </div>
   );
 };
-
-export default AxisRangeInput;

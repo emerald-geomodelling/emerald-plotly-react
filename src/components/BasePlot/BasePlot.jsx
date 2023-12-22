@@ -6,6 +6,7 @@ import { usePlotConfiguration } from "../../hooks";
 import { calculatePlotElementsPositions } from "../../utils";
 
 import CustomMenu from "../CustomMenu";
+import AxisRangeInput from "../AxisRangeInput";
 
 const BasePlot = ({
   context,
@@ -13,7 +14,6 @@ const BasePlot = ({
   elements,
   subplotZooms,
   setSubplotZooms,
-  showLegend,
   children,
   ignore_errors,
   selections,
@@ -21,6 +21,8 @@ const BasePlot = ({
   currentDragMode,
   ...restProps
 }) => {
+  const [showLegend, setShowLegend] = useState(false);
+  const [isPlotReady, setIsPlotReady] = useState(false);
   const [plotConfig, setPlotConfig] = useState(null);
   const plotRef = useRef(null);
 
@@ -54,6 +56,7 @@ const BasePlot = ({
         plotConfig.layout
       );
       setSubplotPositions(positions);
+      setIsPlotReady(true);
     }
   };
 
@@ -75,6 +78,10 @@ const BasePlot = ({
       setSubplotZooms,
       subplotZooms,
     });
+  };
+
+  const toggleLegendVisibility = () => {
+    setShowLegend((prevShowLegend) => !prevShowLegend);
   };
 
   if (!plotConfig) return children;
@@ -100,8 +107,20 @@ const BasePlot = ({
       />
 
       {subplotPositions.map((element, index) => (
-        <CustomMenu key={index} element={element} />
+        <CustomMenu
+          key={index}
+          element={element}
+          toggleLegend={toggleLegendVisibility}
+        />
       ))}
+
+      {isPlotReady && (
+        <AxisRangeInput
+          plotRef={plotRef}
+          subplotZooms={subplotZooms}
+          setSubplotZooms={setSubplotZooms}
+        />
+      )}
     </div>
   );
 };
