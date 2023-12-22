@@ -12,6 +12,7 @@ const BasePlot = ({
   plot,
   elements,
   subplotZooms,
+  setSubplotZooms,
   showLegend,
   children,
   ignore_errors,
@@ -56,7 +57,7 @@ const BasePlot = ({
     }
   };
 
-  const handleSelected = (eventData) => {
+  const onSelected = (eventData) => {
     const serialized = JSON.stringify(eventData?.selections);
     if (serialized !== selections?.serialized) {
       setSelections({
@@ -65,6 +66,15 @@ const BasePlot = ({
         selections: eventData?.selections,
       });
     }
+  };
+
+  const onRelayout = (layout) => {
+    console.log("handle relayout");
+    saveZoomStateOnRelayout({
+      layout,
+      setSubplotZooms,
+      subplotZooms,
+    });
   };
 
   if (!plotConfig) return children;
@@ -84,7 +94,8 @@ const BasePlot = ({
           handlePlotElementClick(ev, elements, context);
         }}
         onAfterPlot={onAfterPlot}
-        onSelected={handleSelected}
+        onSelected={onSelected}
+        onRelayout={onRelayout}
         {...restProps}
       />
 
