@@ -18,7 +18,8 @@ const renderMenuItem = (item, index) => {
 };
 
 const CustomMenu = ({ element, toggleLegend, additionalItems = [] }) => {
-  // MAYBE MOBE ALL OF THIS TO A HOOK
+  // MAYBE MOVE ALL OF THIS TO A HOOK
+  // Add layout, setLayout and subplot available
 
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
