@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import CustomJsonEditor from "./CustomJsonEditor";
+
+import {
+  split_axis_tracename,
+  subplot_schema,
+  subplot_specification,
+} from "./utils";
 
 const CustomSubplotEditor = ({
   plot,
@@ -46,7 +53,7 @@ const CustomSubplotEditor = ({
 
   return (
     <div className="w-full">
-      <SublotEditorAdvanced
+      <CustomJsonEditor
         schema={updateSubplotSchema}
         setSubplotData={setSubplotDataWrapper}
         subplotData={dataInSubplot}
