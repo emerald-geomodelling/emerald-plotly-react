@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Cog6ToothIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import CustomMenuPopup from "./CustomMenuPopup";
+import CustomSubplotEditor from "./CustomSubplotEditor";
 
 const renderMenuItem = (item, index) => {
   return (
@@ -17,15 +18,20 @@ const renderMenuItem = (item, index) => {
   );
 };
 
-const CustomMenu = ({ element, toggleLegend, additionalItems = [] }) => {
-  // MAYBE MOVE ALL OF THIS TO A HOOK
-  // Add layout, setLayout and subplot available
-
+const CustomMenu = ({
+  plot,
+  setPlot,
+  elements,
+  context,
+  element,
+  setShowLegend,
+  additionalItems = [],
+}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const handleItemClick = (item) => {
+  const handleShowCustomMenuOnClick = (item) => {
     console.log(`${item.label} clicked`);
     if (showPopup) {
       setShowPopup(false);
@@ -33,10 +39,18 @@ const CustomMenu = ({ element, toggleLegend, additionalItems = [] }) => {
       console.log(`Content for ${item.label}:`, item.content);
       setShowPopup(true);
       setPopupContent(item.content);
-      setPopupPosition({ x: element.x, y: element.y });
+      setPopupPosition({
+        x: element.x,
+        y: element.y,
+        clientWidth: element.clientWidth,
+        clientHeight: element.clientHeight,
+      });
     }
   };
-  //////////////////
+
+  const handleLegendOnClick = () => {
+    setShowLegend((prevShowLegend) => !prevShowLegend);
+  };
 
   const defaultMenuItems =
     element.type === "colorbar"
@@ -51,15 +65,23 @@ const CustomMenu = ({ element, toggleLegend, additionalItems = [] }) => {
           {
             icon: <Cog6ToothIcon className="w-4 h-4" />,
             onClick: () =>
-              handleItemClick({
+              handleShowCustomMenuOnClick({
                 label: element.subplotName,
-                content: element.subplotName,
+                content: (
+                  <CustomSubplotEditor
+                    plot={plot}
+                    setPlot={setPlot}
+                    elements={elements}
+                    context={context}
+                    subplotName={element.subplotName}
+                  />
+                ),
               }),
             label: element.subplotName,
           },
           {
             icon: <ListBulletIcon className="w-4 h-4" />,
-            onClick: toggleLegend,
+            onClick: () => handleLegendOnClick(),
             label: "toggle legend",
           },
         ];
@@ -78,7 +100,8 @@ const CustomMenu = ({ element, toggleLegend, additionalItems = [] }) => {
       {showPopup && (
         <CustomMenuPopup
           content={popupContent}
-          position={popupPosition}
+          clickPosition={popupPosition}
+          setPopupPosition={setPopupPosition}
           setShowPopup={setShowPopup}
         />
       )}
@@ -93,7 +116,7 @@ export default CustomMenu;
 To add menu items: 
 
 <CustomMenu
-position={position}
+clickPosition={position}
 additionalItems={[
             { icon: 'custom-icon', label: 'Custom Item 1', onClick: () => console.log('Custom Item 1 clicked') },
             { icon: 'custom-icon', label: 'Custom Item 2', onClick: () => console.log('Custom Item 2 clicked') }

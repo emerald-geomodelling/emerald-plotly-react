@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 
-import { handlePlotElementClick } from "../../handlers";
+import {
+  handlePlotElementClick,
+  saveZoomStateOnRelayout,
+} from "../../handlers";
 import { usePlotConfiguration } from "../../hooks";
 import { calculatePlotElementsPositions } from "../../utils";
 
@@ -11,16 +14,36 @@ import AxisRangeInput from "../AxisRangeInput";
 const BasePlot = ({
   context,
   plot,
+  setPlot,
   elements,
-  subplotZooms,
-  setSubplotZooms,
+
+  // Optional props with default values
+  subplotZooms = null,
+  setSubplotZooms = null,
+  currentDragMode = null,
+  selections = null,
+  setSelections = null,
+
+  ignore_errors = true,
+  onPlotUpdate = null, // Callback for plot updates
+  useDefaultModebar = true, // Handles visibility of default plotly modebar
+
   children,
-  ignore_errors,
-  selections,
-  setSelections,
-  currentDragMode,
   ...restProps
 }) => {
+  /* Wrapper around <react-plotly.Plot /> and ElementPlotting.
+  props:
+    plot, context, elements: Same meanings as the arguments to
+      ElementPlotting.instantiate_plot()
+  setSubplotPositioning:
+      Function that will be called after each rerendering with an object of the form
+        {subplotAxisName: {bbox: {x, y, width, height},
+                           overlaying: subplotAxisName,
+                           underlaying: [subplotAxisName, subplotAxisName...]}}
+    children: JSX to show when no plot is shown (e.g. plot or context is null)
+  Any additional props are sent on to <react-plotly.Plot />
+  */
+
   const [showLegend, setShowLegend] = useState(false);
   const [isPlotReady, setIsPlotReady] = useState(false);
   const [plotConfig, setPlotConfig] = useState(null);
@@ -57,32 +80,51 @@ const BasePlot = ({
       );
       setSubplotPositions(positions);
       setIsPlotReady(true);
+      onPlotUpdate && onPlotUpdate(plotConfig);
     }
   };
 
   const onSelected = (eventData) => {
-    const serialized = JSON.stringify(eventData?.selections);
-    if (serialized !== selections?.serialized) {
-      setSelections({
-        serialized: serialized,
-        points: eventData?.points,
-        selections: eventData?.selections,
-      });
+    if (setSelections) {
+      const serialized = JSON.stringify(eventData?.selections);
+      if (serialized !== selections?.serialized) {
+        setSelections({
+          serialized: serialized,
+          points: eventData?.points,
+          selections: eventData?.selections,
+          /*
+        components: eventData?.selections?.map((selection) => {
+          return plot.traces.filter(
+            (trace) =>
+              Object.values(trace)[0].xaxis == selection.xref &&
+              Object.values(trace)[0].yaxis == selection.yref
+          );
+        }),
+        */
+        });
+      }
     }
   };
 
   const onRelayout = (layout) => {
-    console.log("handle relayout");
-    saveZoomStateOnRelayout({
-      layout,
-      setSubplotZooms,
-      subplotZooms,
-    });
+    if (setSubplotZooms && subplotZooms) {
+      saveZoomStateOnRelayout({
+        layout,
+        setSubplotZooms,
+        subplotZooms,
+      });
+    }
   };
 
-  const toggleLegendVisibility = () => {
-    setShowLegend((prevShowLegend) => !prevShowLegend);
-  };
+  const plotlyPlotConfig = useMemo(
+    () => ({
+      responsive: true,
+      displaylogo: false,
+      displayModeBar: useDefaultModebar,
+      doubleClick: false,
+    }),
+    [useDefaultModebar]
+  );
 
   if (!plotConfig) return children;
 
@@ -97,6 +139,7 @@ const BasePlot = ({
       <Plot
         data={plotConfig.traces}
         layout={plotConfig.layout}
+        config={plotlyPlotConfig}
         onClick={(ev) => {
           handlePlotElementClick(ev, elements, context);
         }}
@@ -109,8 +152,12 @@ const BasePlot = ({
       {subplotPositions.map((element, index) => (
         <CustomMenu
           key={index}
+          plot={plot}
+          setPlot={setPlot}
+          elements={elements}
+          context={context}
           element={element}
-          toggleLegend={toggleLegendVisibility}
+          setShowLegend={setShowLegend}
         />
       ))}
 

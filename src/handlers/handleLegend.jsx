@@ -1,20 +1,21 @@
-export const getUpdatedTracesForLegendGroups = (plotdef, subplot) => {
+export const getUpdatedTracesForLegendGroups = (plotdef, showLegend) => {
   return plotdef.traces.map((trace) => {
-    if (trace.xaxis + trace.yaxis === subplot.overlaying) {
-      return {
-        ...trace,
-        showlegend: true,
-      };
-    }
     return {
       ...trace,
-      showlegend: false, // Explicitly hide others
+      showlegend: showLegend,
     };
   });
 };
 
-export const initializeLegendForPlot = (plotdef, showLegend) => {
-  const updatedTraces = getUpdatedTracesForLegendGroups(plotdef, showLegend);
+export const initializeLegendForPlot = (
+  plotdef,
+  selectedSubplot,
+  showLegend
+) => {
+  const updatedTraces = getUpdatedTracesForLegendGroups(
+    plotdef,
+    selectedSubplot
+  );
   return {
     ...plotdef,
     traces: updatedTraces,
