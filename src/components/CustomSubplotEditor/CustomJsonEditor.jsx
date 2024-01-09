@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { JsonEditorWrapper } from "emerald-json-editor-react";
 
-export const CustomJsonEditor = ({ schema, setSubplotData, subplotData }) => {
+const CustomJsonEditor = ({ schema, setSubplotData, subplotData }) => {
   const [data, setData] = useState(subplotData);
 
   return (

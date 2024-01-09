@@ -5,7 +5,7 @@ import {
   split_axis_tracename,
   subplot_schema,
   subplot_specification,
-} from "./utils";
+} from "../../utils";
 
 const CustomSubplotEditor = ({
   plot,

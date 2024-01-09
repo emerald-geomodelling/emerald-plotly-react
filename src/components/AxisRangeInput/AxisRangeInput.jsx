@@ -26,7 +26,7 @@ const useOutsideClick = (onOutsideClick) => {
   return ref;
 };
 
-export const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
+const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
   const {
     showAxisRangeInput,
     axisRangeInputPosition,
@@ -132,3 +132,5 @@ export const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
     </div>
   );
 };
+
+export default AxisRangeInput;

@@ -1,3 +1,1 @@
-import BasePlot from "./components/BasePlot/BasePlot";
-
-export { BasePlot };
+export { default as BasePlot } from "./components/BasePlot";

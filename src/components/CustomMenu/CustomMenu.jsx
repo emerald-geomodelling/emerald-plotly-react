@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Cog6ToothIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import CustomMenuPopup from "./CustomMenuPopup";
-import CustomSubplotEditor from "./CustomSubplotEditor";
+import CustomSubplotEditor from "../CustomSubplotEditor";
 
 const renderMenuItem = (item, index) => {
   return (
@@ -57,7 +57,11 @@ const CustomMenu = ({
       ? [
           {
             icon: <Cog6ToothIcon className="w-4 h-4" />,
-            onClick: () => console.log("Default Item 1 clicked"),
+            onClick: () =>
+              handleShowCustomMenuOnClick({
+                label: element.subplotName,
+                content: <div>Custom Colorbar</div>,
+              }),
             label: element.colorbarName,
           },
         ]
