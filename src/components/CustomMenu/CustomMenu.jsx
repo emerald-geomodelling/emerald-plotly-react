@@ -31,12 +31,10 @@ const CustomMenu = ({
   const [popupContent, setPopupContent] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const handleShowCustomMenuOnClick = (item) => {
-    console.log(`${item.label} clicked`);
+  const handleDefaultItemsOnClick = (item) => {
     if (showPopup) {
       setShowPopup(false);
     } else {
-      console.log(`Content for ${item.label}:`, item.content);
       setShowPopup(true);
       setPopupContent(item.content);
       setPopupPosition({
@@ -58,7 +56,7 @@ const CustomMenu = ({
           {
             icon: <Cog6ToothIcon className="w-4 h-4" />,
             onClick: () =>
-              handleShowCustomMenuOnClick({
+              handleDefaultItemsOnClick({
                 label: element.subplotName,
                 content: <div>Custom Colorbar</div>,
               }),
@@ -69,7 +67,7 @@ const CustomMenu = ({
           {
             icon: <Cog6ToothIcon className="w-4 h-4" />,
             onClick: () =>
-              handleShowCustomMenuOnClick({
+              handleDefaultItemsOnClick({
                 label: element.subplotName,
                 content: (
                   <CustomSubplotEditor
@@ -120,10 +118,10 @@ export default CustomMenu;
 To add menu items: 
 
 <CustomMenu
-clickPosition={position}
-additionalItems={[
-            { icon: 'custom-icon', label: 'Custom Item 1', onClick: () => console.log('Custom Item 1 clicked') },
-            { icon: 'custom-icon', label: 'Custom Item 2', onClick: () => console.log('Custom Item 2 clicked') }
-        ]}
+  additionalItems={[
+    { icon: 'custom-icon', label: 'Custom Item 1', onClick: () => console.log('Custom Item 1 clicked') },
+    { icon: 'custom-icon', label: 'Custom Item 2', onClick: () => console.log('Custom Item 2 clicked') }
+  ]}
+
         />
         */
