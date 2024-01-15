@@ -45,7 +45,7 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
     transition: `transform ${transitionDuration}, opacity ${transitionDuration} ease-in-out`,
     maxWidth: `600px`,
     maxHeight: `400px`,
-    width: `350px`,
+    width: `fit-content`,
     zIndex: 2000,
   };
 

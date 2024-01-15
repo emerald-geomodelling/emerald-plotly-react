@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Cog6ToothIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import CustomMenuPopup from "./CustomMenuPopup";
-import CustomSubplotEditor from "../CustomSubplotEditor";
+import DefaultSubplotEditor from "../DefaultSubplotEditor";
+import DefaultColoraxisEditor from "../DefaultColoraxisEditor";
 
 const renderMenuItem = (item, index) => {
   return (
@@ -31,10 +32,13 @@ const CustomMenu = ({
   const [popupContent, setPopupContent] = useState(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const handleDefaultItemsOnClick = (item) => {
+  const handleShowCustomMenuOnClick = (item) => {
+    console.log(`${item.label} clicked`);
+    console.log("element clicked:", element, "elements", elements);
     if (showPopup) {
       setShowPopup(false);
     } else {
+      console.log(`Content for ${item.label}:`, item.content);
       setShowPopup(true);
       setPopupContent(item.content);
       setPopupPosition({
@@ -56,9 +60,16 @@ const CustomMenu = ({
           {
             icon: <Cog6ToothIcon className="w-4 h-4" />,
             onClick: () =>
-              handleDefaultItemsOnClick({
+              handleShowCustomMenuOnClick({
                 label: element.subplotName,
-                content: <div>Custom Colorbar</div>,
+                content: (
+                  <DefaultColoraxisEditor
+                    plot={plot}
+                    setPlot={setPlot}
+                    elements={elements}
+                    element={element}
+                  />
+                ),
               }),
             label: element.colorbarName,
           },
@@ -67,10 +78,10 @@ const CustomMenu = ({
           {
             icon: <Cog6ToothIcon className="w-4 h-4" />,
             onClick: () =>
-              handleDefaultItemsOnClick({
+              handleShowCustomMenuOnClick({
                 label: element.subplotName,
                 content: (
-                  <CustomSubplotEditor
+                  <DefaultSubplotEditor
                     plot={plot}
                     setPlot={setPlot}
                     elements={elements}
