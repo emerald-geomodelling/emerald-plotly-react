@@ -7,7 +7,7 @@ import {
   subplot_specification,
 } from "../../utils";
 
-const CustomSubplotEditor = ({
+const DefaultSubplotEditor = ({
   plot,
   setPlot,
   elements,
@@ -52,7 +52,7 @@ const CustomSubplotEditor = ({
     updateSubplotData(subplotName, dataInSubplot);
 
   return (
-    <div className="w-full">
+    <div className="w-[350px]">
       <CustomJsonEditor
         schema={updateSubplotSchema}
         setSubplotData={setSubplotDataWrapper}
@@ -62,4 +62,4 @@ const CustomSubplotEditor = ({
   );
 };
 
-export default CustomSubplotEditor;
+export default DefaultSubplotEditor;
