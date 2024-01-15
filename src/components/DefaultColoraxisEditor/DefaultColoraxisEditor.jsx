@@ -1,4 +1,5 @@
 import { JsonEditorWrapper } from "emerald-json-editor-react";
+import { coloraxisJsonSchema } from "../../utils";
 
 const DefaultColoraxisEditor = ({ plot, setPlot, elements, element }) => {
   if (!element || !plot) return null;
