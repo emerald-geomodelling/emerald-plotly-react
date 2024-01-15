@@ -1,3 +1,4 @@
+import React from "react";
 import { JsonEditorWrapper } from "emerald-json-editor-react";
 import { coloraxisJsonSchema } from "../../utils";
 

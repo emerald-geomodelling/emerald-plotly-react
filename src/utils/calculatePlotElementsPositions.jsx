@@ -1,5 +1,7 @@
 export const calculatePlotElementsPositions = (plotElement, plotLayout) => {
   const positions = [];
+  const clientWidth = plotElement.clientWidth;
+  const clientHeight = plotElement.clientHeight;
 
   // Extract subplot names from the layout
   const subplotNames = plotLayout.grid.subplots.flat();
@@ -16,7 +18,14 @@ export const calculatePlotElementsPositions = (plotElement, plotLayout) => {
 
     const subplotName =
       subplotNames.find((name) => el.classList.contains(name)) || "unknown";
-    positions.push({ x, y, subplotName, type: "subplot" });
+    positions.push({
+      x,
+      y,
+      subplotName,
+      type: "subplot",
+      clientWidth,
+      clientHeight,
+    });
   });
 
   // Handle colorbars
@@ -26,7 +35,21 @@ export const calculatePlotElementsPositions = (plotElement, plotLayout) => {
     const y = bbox.y;
 
     const colorbarName = el.classList[0].slice(2);
-    positions.push({ x, y, colorbarName, type: "colorbar" });
+    const colorbarUnit = plotLayout[el.classList[0].slice(2)]?.unit;
+
+    if (colorbarUnit === undefined) {
+      return;
+    }
+
+    positions.push({
+      x,
+      y,
+      colorbarName,
+      colorbarUnit,
+      type: "colorbar",
+      clientWidth,
+      clientHeight,
+    });
   });
 
   return positions;

@@ -1,18 +1,18 @@
 export const coloraxisJsonSchema = {
-  type: "object",
-  properties: {
-    cmin: {
-      type: "number",
-      default: null,
+  "type": "object",
+  "properties": {
+    "cmin": {
+      "type": "number",
+      "default": null,
     },
-    cmax: {
-      type: "number",
-      default: null,
+    "cmax": {
+      "type": "number",
+      "default": null,
     },
 
-    colorscale: {
-      type: "string",
-      enum: [
+    "colorscale": {
+      "type": "string",
+      "enum": [
         "Greys",
         "YlGnBu",
         "Greens",
@@ -32,8 +32,8 @@ export const coloraxisJsonSchema = {
         "Viridis",
         "Cividis",
       ],
-      default: null,
+      "default": null,
     },
   },
-  additionalProperties: false,
+  "additionalProperties": false,
 };

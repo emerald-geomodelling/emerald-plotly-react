@@ -23,10 +23,10 @@ const CustomMenu = ({
   plot,
   setPlot,
   elements,
-  context,
   element,
+  context,
   setShowLegend,
-  additionalItems = [],
+  additionalMenuItems,
 }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
@@ -107,9 +107,10 @@ const CustomMenu = ({
 
   return (
     <ul style={style} className="absolute rounded p-1 flex flex-col gap-1">
-      {defaultMenuItems
-        .concat(additionalItems)
-        .map((item, index) => renderMenuItem(item, index))}
+      {(additionalMenuItems
+        ? defaultMenuItems.concat(additionalMenuItems)
+        : defaultMenuItems
+      ).map((item, index) => renderMenuItem(item, index))}
       {showPopup && (
         <CustomMenuPopup
           content={popupContent}

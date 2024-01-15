@@ -27,6 +27,7 @@ const BasePlot = ({
   ignore_errors = true,
   onPlotUpdate = null, // Callback for plot updates
   useDefaultModebar = true, // Handles visibility of default plotly modebar
+  additionalMenuItems = [], // adds additional items to the custom menu
 
   children,
   ...restProps
@@ -43,7 +44,6 @@ const BasePlot = ({
     children: JSX to show when no plot is shown (e.g. plot or context is null)
   Any additional props are sent on to <react-plotly.Plot />
   */
-
   const [showLegend, setShowLegend] = useState(false);
   const [isPlotReady, setIsPlotReady] = useState(false);
   const [plotConfig, setPlotConfig] = useState(null);
@@ -155,9 +155,10 @@ const BasePlot = ({
           plot={plot}
           setPlot={setPlot}
           elements={elements}
-          context={context}
           element={element}
+          context={context}
           setShowLegend={setShowLegend}
+          additionalMenuItems={additionalMenuItems}
         />
       ))}
 
