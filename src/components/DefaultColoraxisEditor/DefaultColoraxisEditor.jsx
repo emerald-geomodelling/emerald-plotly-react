@@ -19,7 +19,7 @@ const DefaultColoraxisEditor = ({ plot, setPlot, elements, element, schema }) =>
   };
 
   return (
-    <div className="colorbar-editor w-[80px]">
+    <div className="default-coloraxis-editor w-[80px]">
       <h4 className="text-gray-700 text-sm font-medium px-2 capitalize">
         {element.colorbarName} ({element.colorbarUnit})
       </h4>
