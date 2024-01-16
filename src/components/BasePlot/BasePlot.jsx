@@ -28,6 +28,7 @@ const BasePlot = ({
   onPlotUpdate = null, // Callback for plot updates
   useDefaultModebar = true, // Handles visibility of default plotly modebar
   additionalMenuItems = [], // adds additional items to the custom menu
+  customSubplotEditor = null,
   customColoraxisEditor = null,
   useDefaultSchema = true, // set to false if you want to use the full plotly schema
 
@@ -161,6 +162,9 @@ const BasePlot = ({
           context={context}
           setShowLegend={setShowLegend}
           additionalMenuItems={additionalMenuItems}
+          customSubplotEditor={customSubplotEditor}
+          customColoraxisEditor={customColoraxisEditor}
+          useDefaultSchema={useDefaultSchema}
         />
       ))}
 
