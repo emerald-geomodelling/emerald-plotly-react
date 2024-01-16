@@ -28,6 +28,8 @@ const BasePlot = ({
   onPlotUpdate = null, // Callback for plot updates
   useDefaultModebar = true, // Handles visibility of default plotly modebar
   additionalMenuItems = [], // adds additional items to the custom menu
+  customColoraxisEditor = null,
+  useDefaultSchema = true, // set to false if you want to use the full plotly schema
 
   children,
   ...restProps

@@ -3,6 +3,7 @@ import { Cog6ToothIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import CustomMenuPopup from "./CustomMenuPopup";
 import DefaultSubplotEditor from "../DefaultSubplotEditor";
 import DefaultColoraxisEditor from "../DefaultColoraxisEditor";
+import { defaultSchema, fullPlotlySchema } from "../../utils";
 
 const renderMenuItem = (item, index) => {
   return (
@@ -27,6 +28,9 @@ const CustomMenu = ({
   context,
   setShowLegend,
   additionalMenuItems,
+  customSubplotEditor,  
+  customColoraxisEditor,
+  useDefaultSchema,
 }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
@@ -54,6 +58,11 @@ const CustomMenu = ({
     setShowLegend((prevShowLegend) => !prevShowLegend);
   };
 
+  // Use custom editors if provided, otherwise use default 
+  const SubplotEditor = customSubplotEditor || DefaultSubplotEditor;
+  const ColoraxisEditor = customColoraxisEditor || DefaultColoraxisEditor;
+  const colorAxisSchema = useDefaultSchema ? defaultSchema : fullPlotlySchema;
+
   const defaultMenuItems =
     element.type === "colorbar"
       ? [
@@ -63,11 +72,12 @@ const CustomMenu = ({
               handleShowCustomMenuOnClick({
                 label: element.subplotName,
                 content: (
-                  <DefaultColoraxisEditor
+                  <ColoraxisEditor
                     plot={plot}
                     setPlot={setPlot}
                     elements={elements}
                     element={element}
+                    schema={colorAxisSchema}
                   />
                 ),
               }),
@@ -81,7 +91,7 @@ const CustomMenu = ({
               handleShowCustomMenuOnClick({
                 label: element.subplotName,
                 content: (
-                  <DefaultSubplotEditor
+                  <SubplotEditor
                     plot={plot}
                     setPlot={setPlot}
                     elements={elements}

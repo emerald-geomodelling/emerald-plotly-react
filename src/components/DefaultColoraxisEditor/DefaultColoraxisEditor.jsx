@@ -1,8 +1,7 @@
 import React from "react";
 import { JsonEditorWrapper } from "emerald-json-editor-react";
-import { coloraxisJsonSchema } from "../../utils";
 
-const DefaultColoraxisEditor = ({ plot, setPlot, elements, element }) => {
+const DefaultColoraxisEditor = ({ plot, setPlot, elements, element, schema }) => {
   if (!element || !plot) return null;
 
   let currentConfig = plot.layout[element.colorbarName];
@@ -26,7 +25,7 @@ const DefaultColoraxisEditor = ({ plot, setPlot, elements, element }) => {
       </h4>
 
       <JsonEditorWrapper
-        schema={coloraxisJsonSchema}
+        schema={schema}
         data={currentConfig}
         setData={(data) => setColoraxisData(data)}
         disable_properties={false}
