@@ -181,3 +181,4 @@ const plotly2jsonschema = (schema) => {
 };
 
 export const fullPlotlySchema = plotly2jsonschema(schema.schema);
+export const fullPlotlyColorAxisSchema = fullPlotlySchema.properties.layout.properties.coloraxis;

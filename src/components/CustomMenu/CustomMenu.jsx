@@ -3,7 +3,7 @@ import { Cog6ToothIcon, ListBulletIcon } from "@heroicons/react/24/outline";
 import CustomMenuPopup from "./CustomMenuPopup";
 import DefaultSubplotEditor from "../DefaultSubplotEditor";
 import DefaultColoraxisEditor from "../DefaultColoraxisEditor";
-import { defaultSchema, fullPlotlySchema } from "../../utils";
+import { defaultSchema, fullPlotlyColorAxisSchema } from "../../utils";
 
 const renderMenuItem = (item, index) => {
   return (
@@ -61,7 +61,7 @@ const CustomMenu = ({
   // Use custom editors if provided, otherwise use default 
   const SubplotEditor = customSubplotEditor || DefaultSubplotEditor;
   const ColoraxisEditor = customColoraxisEditor || DefaultColoraxisEditor;
-  const colorAxisSchema = useDefaultSchema ? defaultSchema : fullPlotlySchema;
+  const colorAxisSchema = useDefaultSchema ? defaultSchema : fullPlotlyColorAxisSchema;
 
   const defaultMenuItems =
     element.type === "colorbar"
