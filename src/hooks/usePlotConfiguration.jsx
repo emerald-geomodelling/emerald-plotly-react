@@ -13,6 +13,7 @@ export const usePlotConfiguration = (
   ignore_errors,
   subplotZooms,
   showLegend,
+  selectedElement,
   setPlotConfig
 ) => {
   useEffect(() => {
@@ -34,7 +35,11 @@ export const usePlotConfiguration = (
       elements,
       context
     );
-    instantiatedPlot = initializeLegendForPlot(instantiatedPlot, showLegend);
+    instantiatedPlot = initializeLegendForPlot(
+      instantiatedPlot,
+      showLegend,
+      selectedElement
+    );
     setPlotConfig(instantiatedPlot);
   }, [context, plot, ignore_errors, elements, subplotZooms, showLegend]); // eslint-disable-line
 };

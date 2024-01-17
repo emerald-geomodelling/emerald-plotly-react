@@ -1,20 +1,30 @@
-export const getUpdatedTracesForLegendGroups = (plotdef, showLegend) => {
+export const getUpdatedTracesForLegendGroups = (
+  plotdef,
+  showLegend,
+  selectedElement
+) => {
   return plotdef.traces.map((trace) => {
+    const elementIdentifier = `${trace.xaxis}${trace.yaxis}`;
+
+    const shouldShowLegend =
+      showLegend && elementIdentifier === selectedElement;
+
     return {
       ...trace,
-      showlegend: showLegend,
+      showlegend: shouldShowLegend,
     };
   });
 };
 
 export const initializeLegendForPlot = (
   plotdef,
-  selectedSubplot,
-  showLegend
+  showLegend,
+  selectedElement
 ) => {
   const updatedTraces = getUpdatedTracesForLegendGroups(
     plotdef,
-    selectedSubplot
+    showLegend,
+    selectedElement
   );
   return {
     ...plotdef,

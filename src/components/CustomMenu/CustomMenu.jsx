@@ -27,6 +27,7 @@ const CustomMenu = ({
   element,
   context,
   setShowLegend,
+  setSelectedElement,
   additionalMenuItems,
   customSubplotEditor,
   customColoraxisEditor,
@@ -54,8 +55,11 @@ const CustomMenu = ({
     }
   };
 
-  const handleLegendOnClick = () => {
-    setShowLegend((prevShowLegend) => !prevShowLegend);
+  const handleLegendOnClick = (element) => {
+    setShowLegend((prevShowLegend) => {
+      setSelectedElement(element.subplotName);
+      return !prevShowLegend;
+    });
   };
 
   // Use custom editors if provided, otherwise use default
@@ -106,7 +110,7 @@ const CustomMenu = ({
           },
           {
             icon: <ListBulletIcon className="w-4 h-4" />,
-            onClick: () => handleLegendOnClick(),
+            onClick: () => handleLegendOnClick(element),
             label: "toggle legend",
           },
         ];

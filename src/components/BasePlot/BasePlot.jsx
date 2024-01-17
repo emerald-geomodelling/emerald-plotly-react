@@ -48,6 +48,7 @@ const BasePlot = ({
   Any additional props are sent on to <react-plotly.Plot />
   */
   const [showLegend, setShowLegend] = useState(false);
+  const [selectedElement, setSelectedElement] = useState(null);
   const [isPlotReady, setIsPlotReady] = useState(false);
   const [plotConfig, setPlotConfig] = useState(null);
   const plotRef = useRef(null);
@@ -59,6 +60,7 @@ const BasePlot = ({
     ignore_errors,
     subplotZooms,
     showLegend,
+    selectedElement,
     setPlotConfig
   );
 
@@ -161,6 +163,7 @@ const BasePlot = ({
           element={element}
           context={context}
           setShowLegend={setShowLegend}
+          setSelectedElement={setSelectedElement}
           additionalMenuItems={additionalMenuItems}
           customSubplotEditor={customSubplotEditor}
           customColoraxisEditor={customColoraxisEditor}
