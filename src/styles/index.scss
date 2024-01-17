@@ -180,10 +180,11 @@
 
 // coloraxis editor styles
 .custom-json-editor.coloraxis {
+  padding-top: 0.3rem;
+
   select {
     width: 140px;
   }
-
   // panel styles
   &
     > div
