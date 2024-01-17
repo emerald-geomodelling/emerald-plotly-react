@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npm run build:css && babel src --out-dir dist --extensions '.jsx,.js' --copy-files",
-    "build:css": "sass styles/index.scss styles/index.css && npx postcss styles/index.css -o dist/styles.css"
-  },  
+    "build:css": "sass src/styles/index.scss src/styles/index.css && npx postcss src/styles/index.css -o dist/styles.css"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/emerald-geomodelling/emerald-plotly-react"
