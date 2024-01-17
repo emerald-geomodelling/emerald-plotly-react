@@ -12,9 +12,8 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
       const rightEdgeOverflow =
         clickPosition.x + width > clickPosition.clientWidth;
       const newLeft = rightEdgeOverflow ? -width - 5 : -width - 5;
-      const bottomEdgeOverflow =
-        clickPosition.y + height > clickPosition.clientHeight;
-      const newTop = bottomEdgeOverflow ? -bottomEdgeOverflow - 50 : 0;
+      const bottomEdgeOverflow = clickPosition.y + height > height;
+      const newTop = bottomEdgeOverflow ? -bottomEdgeOverflow - 260 : 0;
 
       setLeftBuffer(newLeft);
       setTopBuffer(newTop);
@@ -44,7 +43,7 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
     opacity: 0,
     transition: `transform ${transitionDuration}, opacity ${transitionDuration} ease-in-out`,
     maxWidth: `600px`,
-    maxHeight: `400px`,
+    maxHeight: `620px`,
     width: `fit-content`,
     zIndex: 1000,
   };
