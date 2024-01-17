@@ -1,12 +1,221 @@
+@charset "UTF-8";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 .custom-json-editor {
-  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.6rem;
+}
+.custom-json-editor div > div > .je-ready > [data-schemapath=root] > .je-header,
+.custom-json-editor > div div div.je-ready div.je-object__container span.je-object__controls {
+  display: none;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel {
+  padding: 0.5rem;
+  border: solid 1px #92b3ca;
+  border-left: solid 4px rgb(29, 113, 173);
+  border-radius: 0.35rem;
+  background-color: rgba(255, 255, 255, 0.527);
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > .je-form-input-label,
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div div.je-child-editor-holder.je-object__container div.je-indented-panel div div div.row div.je-object__container h3.je-header.je-object__title,
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div div.je-child-editor-holder.je-object__container div.je-indented-panel div div div.row div.je-object__container .je-object__controls,
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div > .je-child-editor-holder.je-object__container > .je-object__controls {
+  display: none;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel .je-indented-panel .je-object__container > .je-header.je-object__title > .json-editor-btn-collapse.json-editor-btntype-toggle {
+  display: none;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div > div.je-child-editor-holder.je-object__container > div.je-indented-panel > div > div > div.row > div.je-object__container > div.je-indented-panel > div > div {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 0.8rem 0.2rem 0.5rem 0.2rem;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div > div.je-child-editor-holder.je-object__container > div.je-indented-panel > div > div > div.row > div.je-object__container > div.je-indented-panel > div > div select {
+  width: 120px;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel span {
+  display: flex;
+  align-items: center;
+  padding-top: 1.5rem;
+  gap: 0.2rem;
+  height: 24px;
+  justify-content: space-between;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel .je-form-input-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel input {
+  padding: 0.3rem 0.6rem;
+  border: solid 1px #92b3ca;
+  border-radius: 0.35rem;
+  width: 140px;
+  max-width: 300px;
+  background-color: white !important;
+  margin-left: 0 !important;
+  font-style: normal;
+  font-size: 0.9rem;
+  transition: 0.05s ease-in-out;
+  outline: none;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel input:hover {
+  border-color: #248ed9;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel h3.je-header.je-object__title {
+  position: absolute;
+  width: 15px;
+  margin-top: -2.2rem !important;
+  right: 0;
+  top: 0;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel .json-editor-btn-collapse.json-editor-btntype-toggle {
+  border: solid rgb(29, 113, 173) 3px !important;
+  color: rgb(29, 113, 173);
+  padding: 0 0.2rem;
+  border-radius: 0.35rem;
+  box-shadow: none !important;
+  font-size: 0.875rem;
+  margin: 0 !important;
+  visibility: hidden;
+  width: 15px;
+  font-size: 1rem;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel .json-editor-btn-collapse.json-editor-btntype-toggle::after {
+  content: "▼";
+  visibility: visible;
+  position: absolute;
+  width: fit-content;
+  top: 0;
+  right: 0;
+}
+.custom-json-editor div[data-theme=html] .je-indented-panel .json-editor-btn-collapse.json-editor-btntype-toggle:hover {
+  color: #165481;
+}
+.custom-json-editor select.je-switcher,
+.custom-json-editor select {
+  padding: 0.3rem 0.6rem;
+  border: solid 1px #92b3ca;
+  border-radius: 0.35rem;
+  width: 140px;
+  max-width: 300px;
+  background-color: white !important;
+  margin-left: 0 !important;
+  font-style: normal;
+  font-size: 0.9rem;
+  transition: 0.05s ease-in-out;
+  outline: none;
+  width: 200px;
+}
+.custom-json-editor select.je-switcher:hover,
+.custom-json-editor select:hover {
+  border-color: #248ed9;
+}
+.custom-json-editor .json-editor-btn-movedown.movedown.json-editor-btntype-move {
+  color: #222;
+  font-size: 0.875rem;
+  visibility: hidden;
+  width: 15px;
+}
+.custom-json-editor .json-editor-btn-movedown.movedown.json-editor-btntype-move::before {
+  content: "⇤";
+  display: inline-block;
+  transform: rotate(-90deg);
+  visibility: visible;
+}
+.custom-json-editor .json-editor-btn-movedown.movedown.json-editor-btntype-move:hover {
+  opacity: 0.8;
+}
+.custom-json-editor .json-editor-btn-moveup.moveup.json-editor-btntype-move {
+  color: #222;
+  font-size: 0.875rem;
+  visibility: hidden;
+  width: 15px;
+}
+.custom-json-editor .json-editor-btn-moveup.moveup.json-editor-btntype-move::before {
+  content: "⇤";
+  display: inline-block;
+  transform: rotate(90deg);
+  visibility: visible;
+}
+.custom-json-editor .json-editor-btn-moveup.moveup.json-editor-btntype-move:hover {
+  opacity: 0.8;
+}
+.custom-json-editor .json-editor-btn-delete.delete.json-editor-btntype-delete {
+  font-size: 0.875rem;
+  visibility: hidden;
+  margin-right: auto;
+  margin-left: -0.3rem;
+  color: rgba(34, 34, 34, 0.7019607843);
+}
+.custom-json-editor .json-editor-btn-delete.delete.json-editor-btntype-delete::before {
+  visibility: visible;
+  content: "Remove";
+  font-size: inherit;
+}
+.custom-json-editor .json-editor-btn-delete.delete.json-editor-btntype-delete:hover {
+  color: #222;
+}
+.custom-json-editor .json-editor-btn-add.json-editor-btntype-add {
+  color: rgb(29, 113, 173);
+  box-shadow: none !important;
+  font-size: 0.875rem;
+  visibility: hidden;
+  position: relative;
+  margin-top: 0.5rem !important;
+  width: 120px;
+}
+.custom-json-editor .json-editor-btn-add.json-editor-btntype-add::after {
+  content: "+ Add item";
+  visibility: visible;
+  position: absolute;
+  width: fit-content;
+  padding: 0.2rem 0.6rem;
+  border: dashed 1px rgb(29, 113, 173);
+  border-radius: 0.35rem;
+  top: 0;
+  left: 0;
+}
+.custom-json-editor .json-editor-btn-add.json-editor-btntype-add:hover {
+  color: #165481;
+}
+.custom-json-editor .apply-button {
+  margin-top: -1.9rem;
+  margin-left: auto;
+  background-color: rgb(29, 113, 173);
+  color: white;
+  font-size: 0.875rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.35rem;
+  transition: ease-in-out 0.15s;
+}
+.custom-json-editor .apply-button:hover {
+  background-color: #217fc3;
 }
 
-.default-coloraxis-editor {
-  background-color: pink;
+.custom-json-editor.coloraxis select {
+  width: 140px;
+}
+.custom-json-editor.coloraxis > div > div > div.je-ready > div.je-object__container > div.je-indented-panel > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 /*# sourceMappingURL=index.css.map */

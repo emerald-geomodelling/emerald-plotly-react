@@ -1,0 +1,7 @@
+$ui-color: rgb(29, 113, 173);
+$ui-color-border: rgb(72, 117, 149);
+$font-size-small: 0.875rem;
+$padding-small: 0.3rem 0.6rem;
+$border-radius: 0.35rem;
+$border-style: solid 1px lighten($ui-color-border, 25%);
+$hover-border-color: lighten($ui-color, 10%);
