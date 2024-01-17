@@ -46,7 +46,7 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
     maxWidth: `600px`,
     maxHeight: `400px`,
     width: `fit-content`,
-    zIndex: 2000,
+    zIndex: 1000,
   };
 
   return (

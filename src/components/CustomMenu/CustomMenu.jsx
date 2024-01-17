@@ -28,7 +28,7 @@ const CustomMenu = ({
   context,
   setShowLegend,
   additionalMenuItems,
-  customSubplotEditor,  
+  customSubplotEditor,
   customColoraxisEditor,
   useDefaultSchema,
 }) => {
@@ -58,10 +58,12 @@ const CustomMenu = ({
     setShowLegend((prevShowLegend) => !prevShowLegend);
   };
 
-  // Use custom editors if provided, otherwise use default 
+  // Use custom editors if provided, otherwise use default
   const SubplotEditor = customSubplotEditor || DefaultSubplotEditor;
   const ColoraxisEditor = customColoraxisEditor || DefaultColoraxisEditor;
-  const colorAxisSchema = useDefaultSchema ? defaultSchema : fullPlotlyColorAxisSchema;
+  const colorAxisSchema = useDefaultSchema
+    ? defaultSchema
+    : fullPlotlyColorAxisSchema;
 
   const defaultMenuItems =
     element.type === "colorbar"
