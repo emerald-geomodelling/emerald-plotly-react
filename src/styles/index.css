@@ -209,6 +209,9 @@
   background-color: #217fc3;
 }
 
+.custom-json-editor.coloraxis {
+  padding-top: 0.3rem;
+}
 .custom-json-editor.coloraxis select {
   width: 140px;
 }

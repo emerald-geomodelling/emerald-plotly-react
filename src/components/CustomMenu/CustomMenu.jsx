@@ -5,11 +5,21 @@ import DefaultSubplotEditor from "../DefaultSubplotEditor";
 import DefaultColoraxisEditor from "../DefaultColoraxisEditor";
 import { defaultSchema, fullPlotlyColorAxisSchema } from "../../utils";
 
-const renderMenuItem = (item, index) => {
+const renderMenuItem = ({
+  item,
+  index,
+  plot,
+  setPlot,
+  elements,
+  element,
+  context,
+}) => {
   return (
     <li
       key={`${item.label}-${index}`}
-      onClick={item.onClick}
+      onClick={() =>
+        item.onClick({ plot, setPlot, elements, element, context })
+      }
       className="menu-item"
       aria-label={item.label}
       role="button"
@@ -126,7 +136,17 @@ const CustomMenu = ({
       {(additionalMenuItems
         ? defaultMenuItems.concat(additionalMenuItems)
         : defaultMenuItems
-      ).map((item, index) => renderMenuItem(item, index))}
+      ).map((item, index) =>
+        renderMenuItem({
+          item,
+          index,
+          plot,
+          setPlot,
+          elements,
+          element,
+          context,
+        })
+      )}
       {showPopup && (
         <CustomMenuPopup
           content={popupContent}
