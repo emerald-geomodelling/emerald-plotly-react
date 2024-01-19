@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { instantiate_plot } from "../utils";
+import { instantiate_plot } from "../elementPlotting";
 import {
   initializeLegendForPlot,
   updateSubplotTitles,
