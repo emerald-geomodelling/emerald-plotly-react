@@ -132,30 +132,34 @@ const CustomMenu = ({
   };
 
   return (
-    <ul style={style} className="absolute rounded p-1 flex flex-col gap-1">
-      {(additionalMenuItems
-        ? defaultMenuItems.concat(additionalMenuItems)
-        : defaultMenuItems
-      ).map((item, index) =>
-        renderMenuItem({
-          item,
-          index,
-          plot,
-          setPlot,
-          elements,
-          element,
-          context,
-        })
-      )}
-      {showPopup && (
-        <CustomMenuPopup
-          content={popupContent}
-          clickPosition={popupPosition}
-          setPopupPosition={setPopupPosition}
-          setShowPopup={setShowPopup}
-        />
-      )}
-    </ul>
+    <div className="absolute">
+      <div className="relative">
+        <ul style={style} className="absolute rounded p-1 flex flex-col gap-1">
+          {(additionalMenuItems
+            ? defaultMenuItems.concat(additionalMenuItems)
+            : defaultMenuItems
+          ).map((item, index) =>
+            renderMenuItem({
+              item,
+              index,
+              plot,
+              setPlot,
+              elements,
+              element,
+              context,
+            })
+          )}
+        </ul>
+        {showPopup && (
+          <CustomMenuPopup
+            content={popupContent}
+            clickPosition={popupPosition}
+            setPopupPosition={setPopupPosition}
+            setShowPopup={setShowPopup}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
