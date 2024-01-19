@@ -10,7 +10,9 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
   useEffect(() => {
     if (popupRef.current) {
       const { width, height } = popupRef?.current.getBoundingClientRect();
+
       console.log("Popup dimensions:", { width, height });
+
       const rightEdgeOverflow =
         clickPosition.x + width > clickPosition.clientWidth;
       const newLeft = rightEdgeOverflow ? -width - 5 : -width - 5;
@@ -26,21 +28,6 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
       popupRef.current.style.opacity = "1";
     }
   }, [content, clickPosition]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (popupRef.current) {
-        const { height } = popupRef.current.getBoundingClientRect();
-        console.log("Updated height on resize:", height);
-        // Recalculate position here if needed
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
