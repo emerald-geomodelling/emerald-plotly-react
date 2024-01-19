@@ -52,7 +52,7 @@ const DefaultSubplotEditor = ({
     updateSubplotData(subplotName, dataInSubplot);
 
   return (
-    <div className="w-[350px]">
+    <div style={{ width: "350px" }}>
       <CustomJsonEditor
         schema={updateSubplotSchema}
         setSubplotData={setSubplotDataWrapper}

@@ -8,48 +8,140 @@
   gap: 0.5rem;
   padding: 0.6rem;
 }
-.custom-json-editor div > div > .je-ready > [data-schemapath=root] > .je-header,
-.custom-json-editor > div div div.je-ready div.je-object__container span.je-object__controls {
+.custom-json-editor
+  div
+  > div
+  > .je-ready
+  > [data-schemapath="root"]
+  > .je-header,
+.custom-json-editor
+  > div
+  div
+  div.je-ready
+  div.je-object__container
+  span.je-object__controls {
   display: none;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel {
+.custom-json-editor div[data-theme="html"] .je-indented-panel {
   border: none;
   padding: 0;
   margin: 0;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div {
+.custom-json-editor div[data-theme="html"] .je-indented-panel > div {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel {
   padding: 0.5rem;
   border: solid 1px #92b3ca;
   border-left: solid 4px rgb(29, 113, 173);
   border-radius: 0.35rem;
   background-color: rgba(255, 255, 255, 0.527);
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > .je-form-input-label,
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div div.je-child-editor-holder.je-object__container div.je-indented-panel div div div.row div.je-object__container h3.je-header.je-object__title,
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div div.je-child-editor-holder.je-object__container div.je-indented-panel div div div.row div.je-object__container .je-object__controls,
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div > .je-child-editor-holder.je-object__container > .je-object__controls {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  > .je-form-input-label,
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  > div
+  div.je-child-editor-holder.je-object__container
+  div.je-indented-panel
+  div
+  div
+  div.row
+  div.je-object__container
+  h3.je-header.je-object__title,
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  > div
+  div.je-child-editor-holder.je-object__container
+  div.je-indented-panel
+  div
+  div
+  div.row
+  div.je-object__container
+  .je-object__controls,
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  > div
+  > .je-child-editor-holder.je-object__container
+  > .je-object__controls {
   display: none;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel .je-indented-panel .je-object__container > .je-header.je-object__title > .json-editor-btn-collapse.json-editor-btntype-toggle {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  .je-indented-panel
+  .je-object__container
+  > .je-header.je-object__title
+  > .json-editor-btn-collapse.json-editor-btntype-toggle {
   display: none;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div > div.je-child-editor-holder.je-object__container > div.je-indented-panel > div > div > div.row > div.je-object__container > div.je-indented-panel > div > div {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  > div
+  > div.je-child-editor-holder.je-object__container
+  > div.je-indented-panel
+  > div
+  > div
+  > div.row
+  > div.je-object__container
+  > div.je-indented-panel
+  > div
+  > div {
   display: flex;
   gap: 0.8rem;
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0.8rem 0.2rem 0.5rem 0.2rem;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel > div > div.je-child-editor-holder.je-object__container > div.je-indented-panel > div > div > div.row > div.je-object__container > div.je-indented-panel > div > div select {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  > div
+  > div.je-child-editor-holder.je-object__container
+  > div.je-indented-panel
+  > div
+  > div
+  > div.row
+  > div.je-object__container
+  > div.je-indented-panel
+  > div
+  > div
+  select {
   width: 120px;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel > div > .je-indented-panel span {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  > div
+  > .je-indented-panel
+  span {
   display: flex;
   align-items: center;
   padding-top: 1.5rem;
@@ -57,12 +149,15 @@
   height: 24px;
   justify-content: space-between;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel .je-form-input-label {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  .je-form-input-label {
   font-size: 0.875rem;
   font-weight: 500;
   text-transform: capitalize;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel input {
+.custom-json-editor div[data-theme="html"] .je-indented-panel input {
   padding: 0.3rem 0.6rem;
   border: solid 1px #92b3ca;
   border-radius: 0.35rem;
@@ -75,17 +170,23 @@
   transition: 0.05s ease-in-out;
   outline: none;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel input:hover {
+.custom-json-editor div[data-theme="html"] .je-indented-panel input:hover {
   border-color: #248ed9;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel h3.je-header.je-object__title {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  h3.je-header.je-object__title {
   position: absolute;
   width: 15px;
   margin-top: -2.2rem !important;
   right: 0;
   top: 0;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel .json-editor-btn-collapse.json-editor-btntype-toggle {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  .json-editor-btn-collapse.json-editor-btntype-toggle {
   border: solid rgb(29, 113, 173) 3px !important;
   color: rgb(29, 113, 173);
   padding: 0 0.2rem;
@@ -97,7 +198,10 @@
   width: 15px;
   font-size: 1rem;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel .json-editor-btn-collapse.json-editor-btntype-toggle::after {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  .json-editor-btn-collapse.json-editor-btntype-toggle::after {
   content: "▼";
   visibility: visible;
   position: absolute;
@@ -105,7 +209,10 @@
   top: 0;
   right: 0;
 }
-.custom-json-editor div[data-theme=html] .je-indented-panel .json-editor-btn-collapse.json-editor-btntype-toggle:hover {
+.custom-json-editor
+  div[data-theme="html"]
+  .je-indented-panel
+  .json-editor-btn-collapse.json-editor-btntype-toggle:hover {
   color: #165481;
 }
 .custom-json-editor select.je-switcher,
@@ -127,19 +234,22 @@
 .custom-json-editor select:hover {
   border-color: #248ed9;
 }
-.custom-json-editor .json-editor-btn-movedown.movedown.json-editor-btntype-move {
+.custom-json-editor
+  .json-editor-btn-movedown.movedown.json-editor-btntype-move {
   color: #222;
   font-size: 0.875rem;
   visibility: hidden;
   width: 15px;
 }
-.custom-json-editor .json-editor-btn-movedown.movedown.json-editor-btntype-move::before {
+.custom-json-editor
+  .json-editor-btn-movedown.movedown.json-editor-btntype-move::before {
   content: "⇤";
   display: inline-block;
   transform: rotate(-90deg);
   visibility: visible;
 }
-.custom-json-editor .json-editor-btn-movedown.movedown.json-editor-btntype-move:hover {
+.custom-json-editor
+  .json-editor-btn-movedown.movedown.json-editor-btntype-move:hover {
   opacity: 0.8;
 }
 .custom-json-editor .json-editor-btn-moveup.moveup.json-editor-btntype-move {
@@ -148,13 +258,15 @@
   visibility: hidden;
   width: 15px;
 }
-.custom-json-editor .json-editor-btn-moveup.moveup.json-editor-btntype-move::before {
+.custom-json-editor
+  .json-editor-btn-moveup.moveup.json-editor-btntype-move::before {
   content: "⇤";
   display: inline-block;
   transform: rotate(90deg);
   visibility: visible;
 }
-.custom-json-editor .json-editor-btn-moveup.moveup.json-editor-btntype-move:hover {
+.custom-json-editor
+  .json-editor-btn-moveup.moveup.json-editor-btntype-move:hover {
   opacity: 0.8;
 }
 .custom-json-editor .json-editor-btn-delete.delete.json-editor-btntype-delete {
@@ -164,12 +276,14 @@
   margin-left: -0.3rem;
   color: rgba(34, 34, 34, 0.7019607843);
 }
-.custom-json-editor .json-editor-btn-delete.delete.json-editor-btntype-delete::before {
+.custom-json-editor
+  .json-editor-btn-delete.delete.json-editor-btntype-delete::before {
   visibility: visible;
   content: "Remove";
   font-size: inherit;
 }
-.custom-json-editor .json-editor-btn-delete.delete.json-editor-btntype-delete:hover {
+.custom-json-editor
+  .json-editor-btn-delete.delete.json-editor-btntype-delete:hover {
   color: #222;
 }
 .custom-json-editor .json-editor-btn-add.json-editor-btntype-add {
@@ -215,7 +329,14 @@
 .custom-json-editor.coloraxis select {
   width: 140px;
 }
-.custom-json-editor.coloraxis > div > div > div.je-ready > div.je-object__container > div.je-indented-panel > div > div {
+.custom-json-editor.coloraxis
+  > div
+  > div
+  > div.je-ready
+  > div.je-object__container
+  > div.je-indented-panel
+  > div
+  > div {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
