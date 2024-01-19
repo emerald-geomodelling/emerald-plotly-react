@@ -46,13 +46,15 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
     maxHeight: `620px`,
     width: `fit-content`,
     zIndex: 1000,
+    overflowY: "scroll",
+    overflowX: "hidden",
   };
 
   return (
     <div
       ref={popupRef}
       style={style}
-      className="absolute shadow-lg bg-gray-50 h-fit border border-gray-200 rounded-md p-1.5 overflow-y-scroll overflow-x-hidden"
+      className="absolute shadow-lg bg-gray-50 h-fit border border-gray-200 rounded-md p-1.5"
     >
       {content}
     </div>

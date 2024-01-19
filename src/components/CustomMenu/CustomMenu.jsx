@@ -132,9 +132,9 @@ const CustomMenu = ({
   };
 
   return (
-    <div className="absolute">
+    <div style={style} className="absolute">
       <div className="relative">
-        <ul style={style} className="absolute rounded p-1 flex flex-col gap-1">
+        <ul className="rounded p-1 flex flex-col gap-1">
           {(additionalMenuItems
             ? defaultMenuItems.concat(additionalMenuItems)
             : defaultMenuItems
