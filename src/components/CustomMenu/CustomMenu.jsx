@@ -83,7 +83,7 @@ const CustomMenu = ({
     element.type === "colorbar"
       ? [
           {
-            icon: <Cog6ToothIcon className="w-4 h-4" />,
+            icon: <Cog6ToothIcon style={{ width: "1rem", height: "1rem" }} />,
             onClick: () =>
               handleShowCustomMenuOnClick({
                 label: element.subplotName,
@@ -102,7 +102,7 @@ const CustomMenu = ({
         ]
       : [
           {
-            icon: <Cog6ToothIcon className="w-4 h-4" />,
+            icon: <Cog6ToothIcon style={{ width: "1rem", height: "1rem" }} />,
             onClick: () =>
               handleShowCustomMenuOnClick({
                 label: element.subplotName,
@@ -119,7 +119,7 @@ const CustomMenu = ({
             label: element.subplotName,
           },
           {
-            icon: <ListBulletIcon className="w-4 h-4" />,
+            icon: <ListBulletIcon style={{ width: "1rem", height: "1rem" }} />,
             onClick: () => handleLegendOnClick(element),
             label: "toggle legend",
           },
@@ -129,12 +129,13 @@ const CustomMenu = ({
     left: `${element.x - 13}px`,
     top: `${element.y + 22}px`,
     zIndex: 10,
+    position: "absolute",
   };
 
   return (
-    <div style={style} className="absolute">
-      <div className="relative">
-        <ul className="rounded p-1 flex flex-col gap-1">
+    <div style={style}>
+      <div style={{ position: "relative" }}>
+        <ul className="custom-menu">
           {(additionalMenuItems
             ? defaultMenuItems.concat(additionalMenuItems)
             : defaultMenuItems
