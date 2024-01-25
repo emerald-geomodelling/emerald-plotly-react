@@ -94,6 +94,21 @@ export const underlaying_subplot = (axis_tracename, plot) => {
   return xaxis + yaxis;
 };
 
+const none_tracedef = {
+  fn: (context, args) => {
+    return [
+      {
+        name: "none",
+        x: [],
+        y: [],
+      },
+    ];
+  },
+  yaxis: null,
+  xaxis: null,
+  schema: (context) => ({ type: "object", additionalProperties: false }),
+};
+
 export const instantiate_plot = function (
   plot,
   elements,
@@ -107,12 +122,9 @@ export const instantiate_plot = function (
   res.layout.shapes = [];
 
   var instantiate_trace = function (name, args) {
-    var tracedef = elements.traces[name];
+    var tracedef = name === "none" ? none_tracedef : elements.traces[name];
     if (tracedef === undefined) {
-      const err = new Error(`component ${name} does not exist`);
-      if (!ignore_errors) throw err;
-      console.error(err);
-      return;
+      throw new Error(`component ${name} does not exist`);
     }
     if (!tracedef.xaxis) {
     } else if (xaxis[args.xaxis] === undefined) {
@@ -122,7 +134,7 @@ export const instantiate_plot = function (
       Object.assign(res.layout[layoutname], elements.xaxis[tracedef.xaxis]);
     } else {
       if (xaxis[args.xaxis] !== tracedef.xaxis) {
-        const err = new Error(
+        throw new Error(
           `Component trace has different x axis unit to existing elements in the same subplot.
           X axis: ${args.xaxis}
           Component: ${name}
@@ -130,9 +142,6 @@ export const instantiate_plot = function (
           Existing unit: ${xaxis[args.xaxis]}
           `
         );
-        if (!ignore_errors) throw err;
-        console.error(err);
-        return;
       }
     }
     if (!tracedef.yaxis) {
@@ -146,7 +155,7 @@ export const instantiate_plot = function (
       );
     } else {
       if (yaxis[args.yaxis] !== tracedef.yaxis) {
-        const err = new Error(
+        throw new Error(
           `Component trace has different y axis unit to existing elements in the same subplot.
           Y axis: ${args.yaxis}
           Component: ${name}
@@ -154,9 +163,6 @@ export const instantiate_plot = function (
           Existing unit: ${yaxis[args.yaxis]}
           `
         );
-        if (!ignore_errors) throw err;
-        console.error(err);
-        return;
       }
     }
     if (tracedef.fn) {
@@ -191,17 +197,49 @@ export const instantiate_plot = function (
     }
   };
 
+  var missing_subplots = {};
   for (var i in plot.traces) {
     var trace = plot?.traces[i];
     if (typeof trace === "string") {
-      instantiate_trace(trace, {});
+      console.warn("Deprecation warning: Unsupported old trace definition with only name");
+      try {
+        instantiate_trace(trace, {});
+      } catch (e) {
+        if (!ignore_errors) throw err;
+        console.error(err);
+      }
     } else {
       for (var name in trace) {
-        instantiate_trace(name, trace[name]);
+        missing_subplots[trace[name].xaxis + " " + trace[name].yaxis] = true;
+        try {
+          instantiate_trace(name, trace[name]);
+        } catch (e) {
+          if (!ignore_errors) throw err;
+          console.error(err);
+        }
       }
     }
   }
 
+  res.traces.map((trace) => {
+    delete missing_subplots[trace.xaxis + " " + trace.yaxis];
+  })
+
+  Object.keys(missing_subplots).map((subplot) => {
+    const [xaxis, yaxis] = subplot.split(" ");
+    res.traces.push({
+      name: "none",
+      x: [],
+      y: [],
+      xaxis: xaxis,
+      yaxis: yaxis,
+      xaxis_unit: null,
+      yaxis_unit: null,
+      component: "none",
+      args: {}
+    });
+  });
+  
   const unit_by_coloraxes = Object.fromEntries(
     Object.entries(res.layout)
       .filter(
