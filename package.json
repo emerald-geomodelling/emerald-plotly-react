@@ -1,6 +1,6 @@
 {
   "name": "emerald-plotly-react",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "postcss-cli": "^11.0.0"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.1",
     "autoprefixer": "^10.4.16",
     "emerald-json-editor-react": "^1.1.6",
     "plotly.js": "^2.27.1",

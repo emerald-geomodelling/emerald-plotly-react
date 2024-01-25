@@ -1,0 +1,16 @@
+.js-plotly-plot {
+  width: inherit;
+  height: inherit;
+}
+
+.js-plotly-plot .plotly .modebar-group {
+  display: flex !important;
+}
+
+.custom-menu {
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

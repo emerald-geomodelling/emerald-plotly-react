@@ -140,7 +140,7 @@ const BasePlot = ({
   }
 
   return (
-    <div className="h-[100%] w-[100%]" ref={plotRef}>
+    <div ref={plotRef} style={{ width: "100%", height: "100%" }}>
       <Plot
         data={plotConfig.traces}
         layout={plotConfig.layout}

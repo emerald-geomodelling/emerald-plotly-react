@@ -2,6 +2,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.js-plotly-plot {
+  width: inherit;
+  height: inherit;
+}
+
+.js-plotly-plot .plotly .modebar-group {
+  display: flex !important;
+}
+
 .custom-json-editor {
   display: flex;
   flex-direction: column;
