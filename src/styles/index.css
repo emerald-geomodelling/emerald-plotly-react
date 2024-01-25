@@ -2,6 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.js-plotly-plot {
+  width: inherit;
+  height: inherit;
+}
+
 .custom-json-editor {
   display: flex;
   flex-direction: column;
