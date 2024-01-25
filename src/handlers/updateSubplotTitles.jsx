@@ -8,14 +8,16 @@ export const updateSubplotTitles = (
     let args = Object.values(trace)[0];
     let componentName = Object.keys(trace)[0];
     let subplotName = args.xaxis + args.yaxis;
-    let title;
+    let title = null;
     if (
       elements.traces[componentName] &&
       elements.traces[componentName].title
     ) {
-      title = elements.traces[componentName].title(context, args);
-    } else {
-      title = null;
+      try {
+        title = elements.traces[componentName].title(context, args);
+      } catch (e) {
+        console.error(e);
+      }
     }
     return [subplotName, title];
   });
