@@ -8,6 +8,13 @@
 
 // JSON EDITOR CUSTOM STYLES
 
+.editorTitle {
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
 .custom-json-editor {
   display: flex;
   flex-direction: column;

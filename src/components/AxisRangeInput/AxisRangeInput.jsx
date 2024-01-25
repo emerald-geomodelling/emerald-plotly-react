@@ -81,7 +81,7 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
   return (
     <div
       ref={rightClickContainerRef}
-      className="axisRangeInput absolute drop-shadow-xl bg-white rounded-lg border border-gray-100 flex flex-col gap-2 p-2 px-2"
+      className="axisRangeInput"
       style={{
         width: boxWidth,
         height: boxHeight,
@@ -90,8 +90,8 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
         zIndex: 1000,
       }}
     >
-      <label className="text-gray-600 text-sm text-center">Axis range</label>
-      <form className="flex gap-1" onSubmit={(e) => e.preventDefault()}>
+      <label className="axisLabel">Axis range</label>
+      <form className="axisForm" onSubmit={(e) => e.preventDefault()}>
         <input
           name={`${clickedAxisType}-min`}
           type="number"
@@ -101,12 +101,7 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
           onKeyDown={(e) => {
             if (e.key === "Enter") handleKeyPress(e);
           }}
-          className={`
-          block w-full rounded-md placeholder:text-gray-500 
-          focus:ring-0 focus:ring-inset sm:leading-6 focus:outline-none 
-          focus:border-purple-500 text-sm bg-transparent py-1.5 px-2 
-          border border-1 border-slate-300 rounded-md hover:border-purple-500
-        `}
+          className="axisInput"
         />
         <input
           name={`${clickedAxisType}-max`}
@@ -117,16 +112,11 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
           onKeyDown={(e) => {
             if (e.key === "Enter") handleKeyPress(e);
           }}
-          className={`
-          block w-full rounded-md placeholder:text-gray-500 
-          focus:ring-0 focus:ring-inset sm:leading-6 focus:outline-none 
-          focus:border-purple-500 text-sm bg-transparent py-1.5 px-2 
-          border border-1 border-slate-300 rounded-md hover:border-purple-500
-        `}
+          className="axisInput"
         />
         <button className="hidden" onClick={handleZoomChange}></button>
-        <button className="mx-1" onClick={handleResetAxis}>
-          <ArrowPathIcon className="w-4 h-4" />
+        <button className="axisButton" onClick={handleResetAxis}>
+          <ArrowPathIcon className="iconStyle" />
         </button>
       </form>
     </div>

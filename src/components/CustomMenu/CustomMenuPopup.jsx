@@ -58,11 +58,7 @@ const CustomMenuPopup = ({ content, clickPosition, setShowPopup }) => {
   };
 
   return (
-    <div
-      ref={popupRef}
-      style={style}
-      className="absolute shadow-lg bg-gray-50 h-fit border border-gray-200 rounded-md p-1.5"
-    >
+    <div ref={popupRef} style={style} className="custom-menu-popup">
       {content}
     </div>
   );

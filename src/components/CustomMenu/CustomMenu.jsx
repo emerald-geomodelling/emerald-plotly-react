@@ -83,7 +83,7 @@ const CustomMenu = ({
     element.type === "colorbar"
       ? [
           {
-            icon: <Cog6ToothIcon style={{ width: "1rem", height: "1rem" }} />,
+            icon: <Cog6ToothIcon className="iconStyle" />,
             onClick: () =>
               handleShowCustomMenuOnClick({
                 label: element.subplotName,
@@ -102,7 +102,7 @@ const CustomMenu = ({
         ]
       : [
           {
-            icon: <Cog6ToothIcon style={{ width: "1rem", height: "1rem" }} />,
+            icon: <Cog6ToothIcon className="iconStyle" />,
             onClick: () =>
               handleShowCustomMenuOnClick({
                 label: element.subplotName,
@@ -119,7 +119,7 @@ const CustomMenu = ({
             label: element.subplotName,
           },
           {
-            icon: <ListBulletIcon style={{ width: "1rem", height: "1rem" }} />,
+            icon: <ListBulletIcon className="iconStyle" />,
             onClick: () => handleLegendOnClick(element),
             label: "toggle legend",
           },

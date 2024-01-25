@@ -26,7 +26,7 @@ const DefaultColoraxisEditor = ({
 
   return (
     <div className="custom-json-editor coloraxis">
-      <h4 className="text-gray-700 text-sm font-medium capitalize">
+      <h4 className="editorTitle">
         {element.colorbarName} ({element.colorbarUnit})
       </h4>
 

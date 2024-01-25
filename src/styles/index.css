@@ -11,6 +11,14 @@
   display: flex !important;
 }
 
+.custom-menu {
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .custom-json-editor {
   display: flex;
   flex-direction: column;
