@@ -165,16 +165,3 @@ const CustomMenu = ({
 };
 
 export default CustomMenu;
-
-/* 
-
-To add menu items: 
-
-<CustomMenu
-  additionalItems={[
-    { icon: 'custom-icon', label: 'Custom Item 1', onClick: () => console.log('Custom Item 1 clicked') },
-    { icon: 'custom-icon', label: 'Custom Item 2', onClick: () => console.log('Custom Item 2 clicked') }
-  ]}
-
-        />
-        */
