@@ -18,8 +18,8 @@ const BasePlot = ({
   elements,
 
   // Optional props with default values
-  subplotZooms = null,
-  setSubplotZooms = null,
+  subplotZooms, // state for storing the zoom levels
+  setSubplotZooms, // saving zoom levels
   currentDragMode = null,
   selections = null,
   setSelections = null,
@@ -53,12 +53,24 @@ const BasePlot = ({
   const [plotConfig, setPlotConfig] = useState(null);
   const plotRef = useRef(null);
 
+  const [localSubplotZooms, setLocalSubplotZooms] = useState(null);
+
+  const handleSetSubplotZooms = (zoomData) => {
+    if (setSubplotZooms) {
+      setSubplotZooms(zoomData);
+    } else {
+      setLocalSubplotZooms(zoomData);
+    }
+  };
+
+  const effectiveSubplotZooms = subplotZooms || localSubplotZooms;
+
   usePlotConfiguration(
     plot,
     context,
     elements,
     ignore_errors,
-    subplotZooms,
+    effectiveSubplotZooms,
     showLegend,
     selectedElement,
     setPlotConfig
@@ -79,6 +91,7 @@ const BasePlot = ({
 
   const onAfterPlot = () => {
     if (plotRef.current && plotConfig && plotConfig.layout) {
+      console.log("XXXXXXXXXXXXXXXXXXXXXXXXXX", plotRef.current.layout);
       const positions = calculatePlotElementsPositions(
         plotRef.current,
         plotConfig.layout
@@ -112,11 +125,11 @@ const BasePlot = ({
   };
 
   const onRelayout = (layout) => {
-    if (setSubplotZooms && subplotZooms) {
+    if (handleSetSubplotZooms && effectiveSubplotZooms) {
       saveZoomStateOnRelayout({
         layout,
-        setSubplotZooms,
-        subplotZooms,
+        setSubplotZooms: handleSetSubplotZooms,
+        subplotZooms: effectiveSubplotZooms,
       });
     }
   };
@@ -174,8 +187,8 @@ const BasePlot = ({
       {isPlotReady && (
         <AxisRangeInput
           plotRef={plotRef}
-          subplotZooms={subplotZooms}
-          setSubplotZooms={setSubplotZooms}
+          subplotZooms={effectiveSubplotZooms}
+          setSubplotZooms={handleSetSubplotZooms}
         />
       )}
     </div>
