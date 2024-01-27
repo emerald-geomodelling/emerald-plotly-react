@@ -42,104 +42,23 @@ import { BasePlot } from "emerald-plotly-react";
 
 The `BasePlot` component is a wrapper around Plotly's `Plot` component, integrating custom subplot management, zoom control, and dynamic plot updating.
 
-### Props
-
-#### `context`: Object
-
-- **Description**: The context object containing environmental data or configurations.
-- **Type**: `Object`
-
-#### `plot`: Object
-
-- **Description**: The plot configuration object.
-- **Type**: `Object`
-
-#### `setPlot`: Function
-
-- **Description**: Function to update the plot configuration.
-- **Type**: `Function`
-
-#### `elements`: Array
-
-- **Description**: Array of elements or data points for the plot.
-- **Type**: `Array`
-
-#### `subplotZooms`: Object
-
-- **Description**: State object for storing zoom levels of subplots.
-- **Type**: `Object`
-- **Default**: `undefined`
-
-#### `setSubplotZooms`: Function
-
-- **Description**: Function to update the zoom levels of subplots.
-- **Type**: `Function`
-
-#### `currentDragMode`: String
-
-- **Description**: Specifies the current drag mode for plot interaction.
-- **Type**: `String`
-- **Default**: `null`
-
-#### `selections`: Object
-
-- **Description**: Object representing the current selections on the plot.
-- **Type**: `Object`
-- **Default**: `null`
-
-#### `setSelections`: Function
-
-- **Description**: Function to update the selections on the plot.
-- **Type**: `Function`
-- **Default**: `null`
-
-#### `ignore_errors`: Boolean
-
-- **Description**: Determines whether to ignore errors during plotting.
-- **Type**: `Boolean`
-- **Default**: `true`
-
-#### `onPlotUpdate`: Function
-
-- **Description**: Callback function for plot updates.
-- **Type**: `Function`
-- **Default**: `null`
-
-#### `useDefaultModebar`: Boolean
-
-- **Description**: Controls visibility of the default Plotly modebar.
-- **Type**: `Boolean`
-- **Default**: `true`
-
-#### `additionalMenuItems`: Array
-
-- **Description**: Additional items for the custom menu.
-- **Type**: `Array<Object>`
-- **Default**: `[]`
-
-#### `customSubplotEditor`: Component
-
-- **Description**: Custom component for editing subplots.
-- **Type**: `React.Component`
-- **Default**: `null`
-
-#### `customColoraxisEditor`: Component
-
-- **Description**: Custom component for editing color axis.
-- **Type**: `React.Component`
-- **Default**: `null`
-
-#### `useDefaultSchema`: Boolean
-
-- **Description**: Whether to use the full Plotly schema.
-- **Type**: `Boolean`
-- **Default**: `true`
-
-#### `children`: Node
-
-- **Description**: JSX or components to display when no plot is shown.
-- **Type**: `React.Node`
-
-#### `...restProps`
-
-- **Description**: Additional props passed to the underlying `Plot` component.
+| Key                     | Description                                                                | Type            | Default | Required |
+| ----------------------- | -------------------------------------------------------------------------- | --------------- | ------- | -------- |
+| `context`               | The context object containing environmental data or configurations.        | Object          | None    | Yes      |
+| `plot`                  | The plot configuration object, specifying how the plot should be rendered. | Object          | None    | Yes      |
+| `setPlot`               | Function to update the plot configuration.                                 | Function        | None    | Yes      |
+| `elements`              | Array of elements or data points for the plot.                             | Array           | None    | Yes      |
+| `subplotZooms`          | State object for storing zoom levels of subplots.                          | Object          | `{}`    | No       |
+| `setSubplotZooms`       | Function to update the zoom levels of subplots.                            | Function        | None    | No       |
+| `currentDragMode`       | Specifies the current drag mode for plot interaction.                      | String          | `null`  | No       |
+| `selections`            | Object representing the current selections on the plot.                    | Object          | `null`  | No       |
+| `setSelections`         | Function to update the selections on the plot.                             | Function        | None    | No       |
+| `ignore_errors`         | Determines whether to ignore errors during plotting.                       | Boolean         | `true`  | No       |
+| `onPlotUpdate`          | Callback function for plot updates.                                        | Function        | `null`  | No       |
+| `useDefaultModebar`     | Controls visibility of the default Plotly modebar.                         | Boolean         | `true`  | No       |
+| `additionalMenuItems`   | Additional items for the custom menu.                                      | Array<Object>   | `[]`    | No       |
+| `customSubplotEditor`   | Custom component for editing subplots.                                     | React.Component | `null`  | No       |
+| `customColoraxisEditor` | Custom component for editing color axis.                                   | React.Component | `null`  | No       |
+| `useDefaultSchema`      | Whether to use the full Plotly schema.                                     | Boolean         | `true`  | No       |
+| `children`              | JSX or components to display when no plot is shown.                        | React.Node      | None    | No       |
+| `...restProps`          | Additional props passed to the underlying `Plot` component.                | Object          | None    | No       |
