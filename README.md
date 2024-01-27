@@ -6,8 +6,9 @@ emerald-plotly-react is an extension to the renowned data visualization library,
 
 - **Separation of concerns:** We've innovated the way you handle plot specifications and data transformations. With emerald-plotly-react, you can independently define what to plot and how to plot it, streamlining the process of creating complex visualizations with multiple subplots.
 - **Flexible layout:** Customize your plot layouts with ease. Our enhanced layout configurations offering additional flexibility, giving you more control over your visualization's appearance.
-- **Subplot editor:** Allowing to plot multiple subplots with a custom editor that makes it possible to edit the subplot traces on the fly.
 - **Zoom management:** Additional zoom functionality.
+- **Subplot editor:** Allowing to plot multiple subplots with a custom editor that makes it possible to edit the subplot traces on the fly.
+- **Customisable subplot menu:** Each subplot has a custom menu which you can add as many custom items you want to.
 
 ## Installation guide
 
