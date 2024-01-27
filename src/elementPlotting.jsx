@@ -201,7 +201,9 @@ export const instantiate_plot = function (
   for (var i in plot.traces) {
     var trace = plot?.traces[i];
     if (typeof trace === "string") {
-      console.warn("Deprecation warning: Unsupported old trace definition with only name");
+      console.warn(
+        "Deprecation warning: Unsupported old trace definition with only name"
+      );
       try {
         instantiate_trace(trace, {});
       } catch (e) {
@@ -223,7 +225,7 @@ export const instantiate_plot = function (
 
   res.traces.map((trace) => {
     delete missing_subplots[trace.xaxis + " " + trace.yaxis];
-  })
+  });
 
   Object.keys(missing_subplots).map((subplot) => {
     const [xaxis, yaxis] = subplot.split(" ");
@@ -236,10 +238,10 @@ export const instantiate_plot = function (
       xaxis_unit: null,
       yaxis_unit: null,
       component: "none",
-      args: {}
+      args: {},
     });
   });
-  
+
   const unit_by_coloraxes = Object.fromEntries(
     Object.entries(res.layout)
       .filter(
