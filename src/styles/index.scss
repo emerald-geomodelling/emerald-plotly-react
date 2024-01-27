@@ -33,6 +33,20 @@
     padding: 0;
     margin: 0;
 
+    // hide item title
+    b,
+    div
+      div.je-child-editor-holder.je-object__container
+      div.je-indented-panel
+      div
+      div
+      div.row
+      div.je-object__container
+      span.je-header.je-object__title
+      span {
+      display: none;
+    }
+
     // outer panel
     & > div {
       display: flex;
@@ -48,10 +62,6 @@
       border-left: solid 4px $ui-color;
       border-radius: $border-radius;
       background-color: rgba(255, 255, 255, 0.527);
-
-      & b {
-        display: none;
-      }
 
       @include hide-panel-elements;
       @include panel-layout-styles;
