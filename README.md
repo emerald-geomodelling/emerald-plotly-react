@@ -62,3 +62,25 @@ The `BasePlot` component is a wrapper around Plotly's `Plot` component, integrat
 | `useDefaultSchema`      | Whether to use the full Plotly schema.                                     | Boolean         | `true`                | No       |
 | `children`              | JSX or components to display when no plot is shown.                        | React.Node      | None                  | No       |
 | `...restProps`          | Additional props passed to the underlying `Plot` component.                | Object          | None                  | No       |
+
+## `CustomMenu` Component API Reference
+
+The `CustomMenu` component provides a custom context menu interface, allowing for additional interaction with plot elements. It supports custom menu items and editors for subplot and color axis customization.
+
+### Props
+
+| Key                     | Description                                                                               | Type          | Default                  | Required |
+| ----------------------- | ----------------------------------------------------------------------------------------- | ------------- | ------------------------ | -------- |
+| `plot`                  | The current plot configuration.                                                           | Object        | None                     | Yes      |
+| `setPlot`               | Function to update the plot configuration.                                                | Function      | None                     | Yes      |
+| `elements`              | Array of elements or data points for the plot.                                            | Array         | None                     | Yes      |
+| `element`               | The element object representing the target plot area.                                     | Object        | None                     | Yes      |
+| `context`               | The context object containing environmental data or configurations.                       | Object        | None                     | Yes      |
+| `setShowLegend`         | Function to toggle the visibility of the legend.                                          | Function      | None                     | Yes      |
+| `setSelectedElement`    | Function to set the currently selected plot element.                                      | Function      | None                     | Yes      |
+| `additionalMenuItems`   | Additional items to be added to the custom menu.                                          | Array<Object> | `[]`                     | No       |
+| `customSubplotEditor`   | Custom component for editing subplot details.                                             | Component     | `DefaultSubplotEditor`   | No       |
+| `customColoraxisEditor` | Custom component for editing the color axis details.                                      | Component     | `DefaultColoraxisEditor` | No       |
+| `useDefaultSchema`      | Determines if the default or full Plotly schema should be used for the color axis editor. | Boolean       | `true`                   | No       |
+
+Note: The `DefaultSubplotEditor` and `DefaultColoraxisEditor` are placeholders for whatever your default components are, if not overridden by props.
