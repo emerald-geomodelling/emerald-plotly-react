@@ -33,4 +33,4 @@ npm install emerald-plotly-react
 import { BasePlot } from "emerald-plotly-react";
 ```
 
-### You can also check out this [example project](https://github.com/emerald-geomodelling/emerald-plotly-react)
+### You can also check out this [example project](https://github.com/emerald-geomodelling/emerald-plotly-react-example)
