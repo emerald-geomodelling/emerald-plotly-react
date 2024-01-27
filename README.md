@@ -27,9 +27,10 @@ npm install emerald-plotly-react
 
 - After installation, you can check your **node_modules** folder to see if emerald-plotly-react and its dependencies have been installed correctly.
 
-#### Usage
+#### Import
 
+```javascript
+import { BasePlot } from "emerald-plotly-react";
 ```
-import BasePlot from "emerald-plotly-react";
 
-```
+### You can also check out this [example project](https://github.com/emerald-geomodelling/emerald-plotly-react)
