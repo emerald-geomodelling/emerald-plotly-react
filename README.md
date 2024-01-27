@@ -11,26 +11,23 @@ emerald-plotly-react is an extension to the renowned data visualization library,
 
 ## Installation guide
 
-Installing emerald-plotly-react is straightforward using npm (Node Package Manager). Here's how you can add it to your project:
+Installing emerald-plotly-react is straightforward using npm. Here's how you can add it to your project:
 
-#### Step 1: Open your terminal or command prompt
-
-#### Step 2: Navigate to your project directory
+#### Navigate to your project directory
 
 - Use the **`cd`** command to go to the directory where you want to install emerald-plotly-react.
 
-#### Step 3: Install emerald-plotly-react
+#### Install
 
-- Run the command **`npm install emerald-plotly-react`**.
-- This command will download and install emerald-plotly-react along with its dependencies into your project's **node_modules** directory. It also updates your project's **package.json** and **package-lock.json** files.
+```
+npm install emerald-plotly-react
+```
 
-#### Step 4: Verify the Installation
+#### Verify the Installation
 
-- After installation, you can check your **\*node_modules** folder to see if emerald-plotly-react and its dependencies have been installed correctly.
+- After installation, you can check your **node_modules** folder to see if emerald-plotly-react and its dependencies have been installed correctly.
 
-#### Using emerald-plotly-react in Your Project
-
-Once installed, you can start using emerald-plotly-react in your project with the following import statement:
+#### Usage
 
 ```
 import BasePlot from "emerald-plotly-react";
