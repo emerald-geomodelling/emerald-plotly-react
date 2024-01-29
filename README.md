@@ -66,7 +66,7 @@ const PlotContainer = () => {
 export default PlotContainer;
 ```
 
-#### You can also check out this [Example Project](https://github.com/emerald-geomodelling/emerald-plotly-react-example)
+### You can also check out this [Example Project](https://github.com/emerald-geomodelling/emerald-plotly-react-example)
 
 ---
 
@@ -94,6 +94,33 @@ The `BasePlot` component is a wrapper around Plotly's `Plot` component, integrat
 | `useDefaultSchema`      | Whether to use the full Plotly schema.                                                                                                                                                                                                      | Boolean         | `true`                | No       |
 | `children`              | JSX or components to display when no plot is shown.                                                                                                                                                                                         | React.Node      | None                  | No       |
 | `...restProps`          | Additional props passed to the underlying `Plot` component.                                                                                                                                                                                 | Object          | None                  | No       |
+
+### Additional Menu Items Example
+
+The `BasePlot` component allows for the addition of custom menu items. Below is an example demonstrating how to define and use `additionalMenuItems`:
+
+#### Defining Custom Menu Items
+
+First, define your custom menu items. You can include icons and specify click event handlers:
+
+```javascript
+const extraMenuItems = [
+  {
+    icon: <ion-icon name="heart-outline"></ion-icon>, // Icon for the menu item
+    label: "Custom Item 1", // Label for the menu item
+    onClick: () => console.log("Custom Item 1 clicked"), // Click handler for the menu item, add functionality that you want
+  },
+];
+```
+
+To use these extraMenuItems, simply pass them as a prop to the BasePlot component:
+
+```javascript
+<BasePlot
+  // ... other props
+  additionalMenuItems={extraMenuItems}
+/>
+```
 
 ## `CustomMenu` Component API Reference
 
