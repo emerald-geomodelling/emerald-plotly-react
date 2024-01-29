@@ -30,12 +30,14 @@ npm install emerald-plotly-react
 
 ## Getting Started
 
+### Here is a full [Example Project](https://github.com/emerald-geomodelling/emerald-plotly-react-example)
+
 To help you get started with `emerald-plotly-react`, here's an example of how you can use the `BasePlot` component within a React application:
 
 ```javascript
 import React, { useState } from "react";
 import { BasePlot } from "emerald-plotly-react";
-import { layout, elements, extraMenuItems } from "./yourPlotConfig"; // Import your plot configuration and elements
+import { layout, elements } from "./yourPlotConfig"; // Import your plot configuration and elements
 
 const PlotContainer = () => {
   const [plotLayout, setPlotLayout] = useState(layout);
@@ -56,7 +58,6 @@ const PlotContainer = () => {
           plot={plot}
           setPlot={setPlot}
           elements={elements}
-          additionalMenuItems={extraMenuItems}
         />
       </div>
     </div>
@@ -65,8 +66,6 @@ const PlotContainer = () => {
 
 export default PlotContainer;
 ```
-
-### You can also check out this [Example Project](https://github.com/emerald-geomodelling/emerald-plotly-react-example)
 
 ---
 
