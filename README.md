@@ -194,3 +194,5 @@ import { CustomMenuPopup } from "emerald-plotly-react";
 These functions are used in building dynamic plotting applications with Plotly, allowing for customization and interaction based on user input or data changes.
 
 ## License
+
+`MIT`
