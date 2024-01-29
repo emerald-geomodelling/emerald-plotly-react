@@ -37,35 +37,137 @@ To help you get started with `emerald-plotly-react`, here's an example of how yo
 ```javascript
 import React, { useState } from "react";
 import { BasePlot } from "emerald-plotly-react";
-import { layout, elements } from "./yourPlotConfig"; // Import your plot configuration and elements
+
+const element_radtemp = {
+  fn: function (context, args) {
+    return [
+      {
+        type: "scattergl",
+        x: context.radial.dist,
+        y: context.radial.temp,
+      },
+    ];
+  },
+  xaxis: "dist",
+  yaxis: "temp",
+  schema: (context) => { // Json-schema for `args` parameter to `fn` above, used to generate a form in the edit menu.
+    return {
+      type: "object",
+      required: [],
+      properties: {},
+      additionalProperties: false,
+    };
+  }
+};
+
+export const elements = {
+  traces: { "Radial temperature": element_radtemp },
+  xaxis: {
+    // Units used on x-axes
+    dist: {
+      title: { text: "distance (m)" },
+    }
+  },
+  yaxis: {
+    // Units used on y-axes
+    temp: {
+      title: {
+        text: "temperature (deg c)",
+      },
+    },
+  }
+};
+
+const initial_layout = {
+  "layout": {
+    "grid": {
+      "columns": 2,
+      "pattern": "independent",
+      "roworder": "bottom to top",
+      "rows": 2,
+      "subplots": [
+        ["xy", "x2y2"],
+        ["x3y3", "x4y4"]
+      ],
+      "xgap": 0,
+      "ygap": 0.0
+    }
+  },
+  "traces": [{ "Radial temperature": { "xaxis": "x", "yaxis": "y" } }]
+};
 
 const PlotContainer = () => {
-  const [plotLayout, setPlotLayout] = useState(layout);
+  const [plotLayout, setPlotLayout] = useState(initial_layout);
 
-  // Deep copy of plot layout to avoid direct state mutation
-  let plot = plotLayout ? JSON.parse(JSON.stringify(plotLayout)) : null;
-  let context = plotLayout;
-
-  const setPlot = (newPlot) => {
-    setPlotLayout(newPlot);
+  // Data that can be plotted; typically you'd use typed arrays here
+  let context = {
+    radial: {
+      dist: [1, 2, 3],
+      temp: [30.2, 31.3, 30.9]
+    }
   };
 
   return (
-    <div className="w-full h-full rounded-lg border border-gray-200 p-3 bg-white shadow-sm relative">
-      <div style={{ width: "100%", height: "100%" }}>
-        <BasePlot
-          context={context}
-          plot={plot}
-          setPlot={setPlot}
-          elements={elements}
-        />
-      </div>
+    <div style={{ width: "100%", height: "100%" }}>
+      <BasePlot
+        context={context}
+        plot={structuredClone(plotLayout)} // Deep copy of plot layout to avoid direct state mutation
+        setPlot={setPlotLayout}
+        elements={elements}
+      />
     </div>
   );
 };
 
 export default PlotContainer;
 ```
+
+## Architecture
+
+A plot layout consists of plot a set of subplots, each subplot holding
+any number of plot elements. Each plot element (e.g. element_radtemp
+in the example above) can be used multiple times in the same subplot
+with different parameters. Data used by the plot elements is stored in
+a context object. Each plot element has a specific unit of measure for
+their x and y axis, and only plot elements that share the same units
+for their axes can be plotted in the same subplot (or, if subplots
+share axes, in subplots that share that axis).
+
+### Plot elements
+
+A plot element defines how to plot some data. It consist of an object
+with a few required (and some optional) properties and methods:
+`xaxis`, `yaxis`, `fn`, `schema`. `xaxis` and `yaxis` give the units
+of measure for the two axes (note: not the actual axes of whatever
+subplot this is used in). `fn` generates a list of plotly traces to be
+plotted given a context object and optional arguments. `schema`
+finally gives a [JSON-schema](https://json-schema.org/) for the
+optional arguments of `fn`.
+
+### Plot context
+
+The plot context is an object that holds all data that can be plotted.
+No particular structure is enforced for the plot context object. It is
+available to all plot element methods.
+
+### Units
+
+As mentioned above, plot elements need to specify the units of measure
+of the two axes. No special syntax is enforced for this, and you can
+just make up names. They are matched against the unit names of other
+elements the user tries to add to the same subplot, and only elements
+with the same units are allowed to share the same axis. Additionally,
+plotly axis configuration (such as text styling, title, tick marks
+etc) can be applied to each unit.
+
+### Layouts
+
+A layout is an object that specifies a plotly layout and a set of plot
+element instances to plot. The layout can be modified by the use using
+the cogwheel menu on each subplot and colorbar. It therefore needs to
+live in a react state, and you can easily implement save/load
+functionality for the user as it is a pure JS object that can be
+serialized to JSON.
 
 ---
 
