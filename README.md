@@ -28,11 +28,43 @@ npm install emerald-plotly-react
 
 - After installation, you can check your **node_modules** folder to see if emerald-plotly-react and its dependencies have been installed correctly.
 
-#### Import
+## Getting Started
 
-```javascript
-import { BasePlot } from "emerald-plotly-react";
-```
+To help you get started with `emerald-plotly-react`, here's an example of how you can use the `BasePlot` component within a React application:
+
+````javascript
+import React, { useState } from 'react';
+import { BasePlot } from 'emerald-plotly-react';
+import { layout, elements, extraMenuItems } from './yourPlotConfig'; // Import your plot configuration and elements
+
+const PlotContainer = () => {
+  const [plotLayout, setPlotLayout] = useState(layout);
+
+  // Deep copy of plot layout to avoid direct state mutation
+  let plot = plotLayout ? JSON.parse(JSON.stringify(plotLayout)) : null;
+  let context = plotLayout;
+
+  const setPlot = (newPlot) => {
+    setPlotLayout(newPlot);
+  };
+
+  return (
+    <div className="w-full h-full rounded-lg border border-gray-200 p-3 bg-white shadow-sm relative">
+      <div style={{ width: "100%", height: "100%" }}>
+        <BasePlot
+          context={context}
+          plot={plot}
+          setPlot={setPlot}
+          elements={elements}
+          additionalMenuItems={extraMenuItems}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default PlotContainer;
+
 
 #### You can also check out this [Example Project](https://github.com/emerald-geomodelling/emerald-plotly-react-example)
 
@@ -107,10 +139,31 @@ setPopupPosition({
   clientWidth: element.clientWidth,
   clientHeight: element.clientHeight,
 });
-```
+````
 
 #### Import
 
 ```javascript
 import { CustomMenuPopup } from "emerald-plotly-react";
 ```
+
+## `elementPlotting` API Reference
+
+| Function                                                        | Description                                                          | Parameters                                                            | Returns                         |
+| --------------------------------------------------------------- | -------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------- |
+| `merge(a, b)`                                                   | Merges two objects, handling data types and combining arrays.        | `a`: Object, `b`: Object                                              | Merged Object                   |
+| `axis_tracename2layoutname(tracename)`                          | Converts a trace name to a layout name as per Plotly's convention.   | `tracename`: String                                                   | Layout Name String              |
+| `split_axis_tracename(tracename)`                               | Splits a combined axis trace name into separate `xaxis` and `yaxis`. | `tracename`: String                                                   | Object with `xaxis` and `yaxis` |
+| `underlaying_subplot(axis_tracename, plot)`                     | Determines the underlying subplot for a given axis trace name.       | `axis_tracename`: String, `plot`: Object                              | Subplot Name String             |
+| `instantiate_plot(plot, elements, context, ignore_errors)`      | Instantiates a plot configuration with user-defined specs.           | `plot`, `elements`, `context`, `ignore_errors`: Boolean               | Enhanced Plot Object            |
+| `subplot_specification(axis, plot_specification)`               | Retrieves specification for a subplot based on axis names.           | `axis`: String, `plot_specification`: Object                          | Subplot Specification Object    |
+| `subplot_elements(axis, plot_specification, elements, context)` | Determines applicable plot elements for a given subplot.             | `axis`: String, `plot_specification`, `elements`, `context`: Object   | Subplot Elements Object         |
+| `component_schema(name, elements, context)`                     | Generates a JSON schema for a specified component.                   | `name`: String, `elements`, `context`: Object                         | JSON Schema Object              |
+| `subplot_schema(axis, plot_specification, elements, context)`   | Creates a JSON schema for subplots with axis unit compatibility.     | `axis`: String, `plot_specification`, `elements`, `context`: Object   | JSON Schema Object              |
+| `apply_selections(elements, context, eventData, action)`        | Applies a selection action to components in a plot.                  | `elements`, `context`: Object, `eventData`: Event, `action`: Function | None                            |
+
+### Usage
+
+These functions are used in building dynamic plotting applications with Plotly, allowing for customization and interaction based on user input or data changes.
+
+## License
