@@ -69,21 +69,22 @@ The `CustomMenu` component provides a custom context menu interface, allowing fo
 
 ### Props
 
-| Key                     | Description                                                                               | Type          | Default                  | Required |
-| ----------------------- | ----------------------------------------------------------------------------------------- | ------------- | ------------------------ | -------- |
-| `plot`                  | The current plot configuration.                                                           | Object        | None                     | Yes      |
-| `setPlot`               | Function to update the plot configuration.                                                | Function      | None                     | Yes      |
-| `elements`              | Array of elements or data points for the plot.                                            | Array         | None                     | Yes      |
-| `element`               | The element object representing the target plot area.                                     | Object        | None                     | Yes      |
-| `context`               | The context object containing environmental data or configurations.                       | Object        | None                     | Yes      |
-| `setShowLegend`         | Function to toggle the visibility of the legend.                                          | Function      | None                     | Yes      |
-| `setSelectedElement`    | Function to set the currently selected plot element.                                      | Function      | None                     | Yes      |
-| `additionalMenuItems`   | Additional items to be added to the custom menu.                                          | Array<Object> | `[]`                     | No       |
-| `customSubplotEditor`   | Custom component for editing subplot details.                                             | Component     | `DefaultSubplotEditor`   | No       |
-| `customColoraxisEditor` | Custom component for editing the color axis details.                                      | Component     | `DefaultColoraxisEditor` | No       |
-| `useDefaultSchema`      | Determines if the default or full Plotly schema should be used for the color axis editor. | Boolean       | `true`                   | No       |
+| Key                     | Description                                                                                                                                                                                                                                              | Type            | Default                  | Required |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------ | -------- |
+| `plot`                  | The current plot configuration.                                                                                                                                                                                                                          | Object          | None                     | Yes      |
+| `setPlot`               | Function to update the plot configuration.                                                                                                                                                                                                               | Function        | None                     | Yes      |
+| `elements`              | Array of elements or data points for the plot.                                                                                                                                                                                                           | Array           | None                     | Yes      |
+| `element`               | The element object representing the target plot area.                                                                                                                                                                                                    | Object          | None                     | Yes      |
+| `context`               | The context object containing environmental data or configurations.                                                                                                                                                                                      | Object          | None                     | Yes      |
+| `setShowLegend`         | Function to toggle the visibility of the legend.                                                                                                                                                                                                         | Function        | None                     | Yes      |
+| `setSelectedElement`    | Function to set the currently selected plot element.                                                                                                                                                                                                     | Function        | None                     | Yes      |
+| `additionalMenuItems`   | Additional items to be added to the custom menu.                                                                                                                                                                                                         | Array<Object>   | `[]`                     | No       |
+| `customSubplotEditor`   | A custom component for editing subplot details. If provided, this component replaces the default editor and must be capable of handling props for `plot`, `setPlot`, `elements`, `context`, and `subplotName` to interact with the plot's configuration. | React.Component | `DefaultSubplotEditor`   | No       |
+| `customColoraxisEditor` | A custom component for editing the color axis details. Similar to `customSubplotEditor`, this replaces the default color axis editor and must interface with the same props expected by the default editor.                                              | React.Component | `DefaultColoraxisEditor` | No       |
 
-Note: The `DefaultSubplotEditor` and `DefaultColoraxisEditor` are placeholders for whatever your default components are, if not overridden by props.
+| `useDefaultSchema` | Determines if the default or full Plotly schema should be used for the color axis editor. | Boolean | `true` | No |
+
+Note: When using `customSubplotEditor` or `customColoraxisEditor`, ensure that the custom components you provide are designed to interact with the plot's data structure and update functions as the default editors do. If no custom editors are provided, `CustomMenu` utilizes its built-in editors that are already equipped to handle the necessary props and provide the appropriate UI for editing subplot and color axis details.
 
 ## `CustomMenuPopup` Component API Reference
 
@@ -106,4 +107,10 @@ setPopupPosition({
   clientWidth: element.clientWidth,
   clientHeight: element.clientHeight,
 });
+```
+
+#### Import
+
+```javascript
+import { CustomMenuPopup } from "emerald-plotly-react";
 ```
