@@ -113,7 +113,7 @@ const extraMenuItems = [
 ];
 ```
 
-To use these extraMenuItems, simply pass them as a prop to the BasePlot component:
+To use these extraMenuItems, simply pass them as a prop to the `BasePlot` component:
 
 ```javascript
 <BasePlot
