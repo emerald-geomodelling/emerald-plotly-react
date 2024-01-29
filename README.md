@@ -42,26 +42,26 @@ import { BasePlot } from "emerald-plotly-react";
 
 The `BasePlot` component is a wrapper around Plotly's `Plot` component, integrating custom subplot management, zoom control, and dynamic plot updating.
 
-| Key                     | Description                                                                | Type            | Default               | Required |
-| ----------------------- | -------------------------------------------------------------------------- | --------------- | --------------------- | -------- |
-| `context`               | The context object containing environmental data or configurations.        | Object          | None                  | Yes      |
-| `plot`                  | The plot configuration object, specifying how the plot should be rendered. | Object          | None                  | Yes      |
-| `setPlot`               | Function to update the plot configuration.                                 | Function        | None                  | Yes      |
-| `elements`              | Array of elements or data points for the plot.                             | Array           | None                  | Yes      |
-| `subplotZooms`          | State object for storing zoom levels of subplots.                          | Object          | localSubplotZooms     | No       |
-| `setSubplotZooms`       | Function to update the zoom levels of subplots.                            | Function        | handleSetSubplotZooms | No       |
-| `currentDragMode`       | Specifies the current drag mode for plot interaction.                      | String          | `null`                | No       |
-| `selections`            | Object representing the current selections on the plot.                    | Object          | `null`                | No       |
-| `setSelections`         | Function to update the selections on the plot.                             | Function        | None                  | No       |
-| `ignore_errors`         | Determines whether to ignore errors during plotting.                       | Boolean         | `true`                | No       |
-| `onPlotUpdate`          | Callback function for plot updates.                                        | Function        | `null`                | No       |
-| `useDefaultModebar`     | Controls visibility of the default Plotly modebar.                         | Boolean         | `true`                | No       |
-| `additionalMenuItems`   | Additional items for the custom menu.                                      | Array<Object>   | `[]`                  | No       |
-| `customSubplotEditor`   | Custom component for editing subplots.                                     | React.Component | `null`                | No       |
-| `customColoraxisEditor` | Custom component for editing color axis.                                   | React.Component | `null`                | No       |
-| `useDefaultSchema`      | Whether to use the full Plotly schema.                                     | Boolean         | `true`                | No       |
-| `children`              | JSX or components to display when no plot is shown.                        | React.Node      | None                  | No       |
-| `...restProps`          | Additional props passed to the underlying `Plot` component.                | Object          | None                  | No       |
+| Key                     | Description                                                                                                                                                                                                                                 | Type            | Default               | Required |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------- | -------- |
+| `context`               | The context object containing environmental data or configurations.                                                                                                                                                                         | Object          | None                  | Yes      |
+| `plot`                  | The plot configuration object, specifying how the plot should be rendered.                                                                                                                                                                  | Object          | None                  | Yes      |
+| `setPlot`               | Function to update the plot configuration.                                                                                                                                                                                                  | Function        | None                  | Yes      |
+| `elements`              | Array of elements or data points for the plot.                                                                                                                                                                                              | Array           | None                  | Yes      |
+| `subplotZooms`          | A state or context-managed object that retains zoom levels for subplots, enabling their use for further optimizations. If not provided, a local state within the component manages the zoom levels by default.                              | Object          | localSubplotZooms     | No       |
+| `setSubplotZooms`       | Function to update the zoom levels of subplots.                                                                                                                                                                                             | Function        | handleSetSubplotZooms | No       |
+| `currentDragMode`       | Specifies the current drag mode for plot interaction.                                                                                                                                                                                       | String          | `null`                | No       |
+| `selections`            | A state object that holds the selection details which can be utilized for further actions or processing within the plot. This state can be managed by a parent component or through a context to enable interaction with selected elements. | Object          | `null`                | No       |
+| `setSelections`         | Function to update the selections on the plot.                                                                                                                                                                                              | Function        | None                  | No       |
+| `ignore_errors`         | Determines whether to ignore errors during plotting.                                                                                                                                                                                        | Boolean         | `true`                | No       |
+| `onPlotUpdate`          | Callback function for plot updates.                                                                                                                                                                                                         | Function        | `null`                | No       |
+| `useDefaultModebar`     | Controls visibility of the default Plotly modebar.                                                                                                                                                                                          | Boolean         | `true`                | No       |
+| `additionalMenuItems`   | Additional items for the custom menu.                                                                                                                                                                                                       | Array<Object>   | `[]`                  | No       |
+| `customSubplotEditor`   | Custom component for editing subplots.                                                                                                                                                                                                      | React.Component | `null`                | No       |
+| `customColoraxisEditor` | Custom component for editing color axis.                                                                                                                                                                                                    | React.Component | `null`                | No       |
+| `useDefaultSchema`      | Whether to use the full Plotly schema.                                                                                                                                                                                                      | Boolean         | `true`                | No       |
+| `children`              | JSX or components to display when no plot is shown.                                                                                                                                                                                         | React.Node      | None                  | No       |
+| `...restProps`          | Additional props passed to the underlying `Plot` component.                                                                                                                                                                                 | Object          | None                  | No       |
 
 ## `CustomMenu` Component API Reference
 
@@ -84,3 +84,26 @@ The `CustomMenu` component provides a custom context menu interface, allowing fo
 | `useDefaultSchema`      | Determines if the default or full Plotly schema should be used for the color axis editor. | Boolean       | `true`                   | No       |
 
 Note: The `DefaultSubplotEditor` and `DefaultColoraxisEditor` are placeholders for whatever your default components are, if not overridden by props.
+
+## `CustomMenuPopup` Component API Reference
+
+The `CustomMenuPopup` component displays a contextual popup with dynamic content. It is versatile and can adapt its position to prevent edge overflow, providing a smooth user experience.
+
+### Props
+
+| Key             | Description                                                                                                                                                                                                                                                         | Type       | Default | Required |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- | -------- |
+| `content`       | The content displayed inside the popup. This is typically a component or HTML elements.                                                                                                                                                                             | React.Node | None    | Yes      |
+| `clickPosition` | An object detailing the popup's position, which should be a state updated upon a click. Refer to the `CustomMenu` source for implementation details. It needs to contain x and y coordinates, along with clientWidth and clientHeight for positioning calculations. | Object     | None    | Yes      |
+| `setShowPopup`  | A function that updates the visibility state of the popup, typically used to hide the popup when a click occurs outside of it.                                                                                                                                      | Function   | None    | Yes      |
+
+#### Example of state update
+
+```javascript
+setPopupPosition({
+  x: element.x,
+  y: element.y,
+  clientWidth: element.clientWidth,
+  clientHeight: element.clientHeight,
+});
+```
