@@ -3,7 +3,6 @@ import Plot from "react-plotly.js";
 
 import {
   handlePlotElementClick,
-  saveZoomStateOnRelayout,
 } from "../../handlers";
 import { usePlotConfiguration } from "../../hooks";
 import { calculatePlotElementsPositions } from "../../utils";
@@ -47,14 +46,18 @@ const BasePlot = ({
     children: JSX to show when no plot is shown (e.g. plot or context is null)
   Any additional props are sent on to <react-plotly.Plot />
   */
+  subplotZooms = null;
+  setSubplotZooms = null;
+  
   const [showLegend, setShowLegend] = useState(false);
   const [selectedElement, setSelectedElement] = useState(null);
   const [isPlotReady, setIsPlotReady] = useState(false);
   const [plotConfig, setPlotConfig] = useState(null);
   const plotRef = useRef(null);
 
-  usePlotConfiguration(
+  usePlotConfiguration({
     plot,
+    plotConfig,
     context,
     elements,
     ignore_errors,
@@ -62,7 +65,7 @@ const BasePlot = ({
     showLegend,
     selectedElement,
     setPlotConfig
-  );
+  });
 
   useEffect(() => {
     if (!plotRef.current) return;
@@ -174,8 +177,8 @@ const BasePlot = ({
       {isPlotReady && (
         <AxisRangeInput
           plotRef={plotRef}
-          subplotZooms={subplotZooms}
-          setSubplotZooms={setSubplotZooms}
+          plotConfig={plotConfig}
+          setPlotConfig={setPlotConfig}
         />
       )}
     </div>

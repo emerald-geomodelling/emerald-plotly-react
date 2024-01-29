@@ -6,8 +6,9 @@ import {
   updateZoomForPlot,
 } from "../handlers";
 
-export const usePlotConfiguration = (
+export const usePlotConfiguration = ({
   plot,
+  plotConfig,
   context,
   elements,
   ignore_errors,
@@ -15,7 +16,7 @@ export const usePlotConfiguration = (
   showLegend,
   selectedElement,
   setPlotConfig
-) => {
+}) => {
   useEffect(() => {
     if (!context || !plot) {
       setPlotConfig(null);
@@ -28,7 +29,7 @@ export const usePlotConfiguration = (
       context,
       ignore_errors
     );
-    instantiatedPlot = updateZoomForPlot(instantiatedPlot, subplotZooms);
+    instantiatedPlot = updateZoomForPlot(instantiatedPlot, plotConfig);
     instantiatedPlot = updateSubplotTitles(
       plot,
       instantiatedPlot,

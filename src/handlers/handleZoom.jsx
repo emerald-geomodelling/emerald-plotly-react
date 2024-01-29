@@ -92,16 +92,15 @@ export const resetAxis = ({ subplotZooms, setSubplotZooms, axisName }) => {
   setSubplotZooms(updatedZooms);
 };
 
-export const updateZoomForPlot = (plotdef, subplotZooms) => {
+export const updateZoomForPlot = (plotdef, plotConfig) => {
   const updatedPlot = { ...plotdef };
   updatedPlot.layout = { ...updatedPlot.layout };
 
-  for (let axis in subplotZooms) {
-    if (subplotZooms[axis].range) {
-      if (!updatedPlot.layout[axis]) updatedPlot.layout[axis] = {};
-      updatedPlot.layout[axis] = { ...updatedPlot.layout[axis] };
-      updatedPlot.layout[axis].range = subplotZooms[axis].range;
+  Object.entries(plotConfig.layout).map(([key, value]) => {
+    if (key.indexOf("axis") !== -1 && value.range !== undefined) {
+      updatedPlot.layout[key] = {...updatedPlot.layout[key], range: value.range};
     }
-  }
+  });
+  
   return updatedPlot;
 };

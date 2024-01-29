@@ -1,7 +1,6 @@
 import React, { useRef, useState, useCallback } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
-import { resetAxis, setAxisZoomRange } from "../../handlers";
 import { useRightClickAxis } from "../../hooks";
 
 const useOutsideClick = (onOutsideClick) => {
@@ -26,7 +25,7 @@ const useOutsideClick = (onOutsideClick) => {
   return ref;
 };
 
-const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
+const AxisRangeInput = ({ plotRef, plotConfig, setPlotConfig }) => {
   const {
     showAxisRangeInput,
     axisRangeInputPosition,
@@ -35,43 +34,30 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
     setShowAxisRangeInput,
   } = useRightClickAxis(plotRef);
 
-  const [desiredRange, setDesiredRange] = useState("");
-  const [desiredRangeMin, setDesiredRangeMin] = useState("");
+  const [desiredRangeMin, desiredRange] = plotConfig.layout[clickedAxis]?.range || ["", ""];
+
+  const setRange = ({min, max}) => {
+    plotConfig.layout[clickedAxis].range = [min, max];
+    setPlotConfig({...plotConfig});
+  }
+  const resetRange = () => {
+    plotConfig.layout[clickedAxis].range = [];
+    setPlotConfig({...plotConfig});
+  }
 
   const boxWidth = 208;
   const boxHeight = 81.5;
 
-  console.log(subplotZooms);
-  const handleZoomChange = () => {
-    console.log(clickedAxis, desiredRange, desiredRangeMin, subplotZooms);
-    setShowAxisRangeInput(false);
-    if (setAxisZoomRange) {
-      setAxisZoomRange({
-        setSubplotZooms,
-        subplotZooms,
-        desiredRange,
-        desiredRangeMin,
-        axisName: clickedAxis,
-      });
-    }
-  };
-
   const handleResetAxis = () => {
     setShowAxisRangeInput(false);
-    if (resetAxis) {
-      resetAxis({
-        setSubplotZooms,
-        subplotZooms,
-        axisName: clickedAxis,
-      });
-    }
+    resetRange();
   };
 
-  const rightClickContainerRef = useOutsideClick(handleZoomChange);
+  const rightClickContainerRef = useOutsideClick(() => { setShowAxisRangeInput(false); });
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleZoomChange();
+      setShowAxisRangeInput(false);
     }
   };
 
@@ -97,7 +83,10 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
           type="number"
           placeholder={`${clickedAxisType}-min`}
           value={desiredRangeMin}
-          onChange={(e) => setDesiredRangeMin(parseFloat(e.target.value))}
+          onChange={(e) => {
+            setRange({min: parseFloat(e.target.value),
+                      max: desiredRange});
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleKeyPress(e);
           }}
@@ -108,14 +97,16 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
           type="number"
           placeholder={`${clickedAxisType}-max`}
           value={desiredRange}
-          onChange={(e) => setDesiredRange(parseFloat(e.target.value))}
+          onChange={(e) => {
+            setRange({min: desiredRangeMin,
+                      max: parseFloat(e.target.value)});
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleKeyPress(e);
           }}
           className="axisInput"
         />
-        <button className="hidden" onClick={handleZoomChange}></button>
-        <button className="axisButton" onClick={handleResetAxis}>
+        <button className="axisButton" onClick={resetRange}>
           <ArrowPathIcon className="iconStyle" />
         </button>
       </form>
