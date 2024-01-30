@@ -50,14 +50,15 @@ const element_radtemp = {
   },
   xaxis: "dist",
   yaxis: "temp",
-  schema: (context) => { // Json-schema for `args` parameter to `fn` above, used to generate a form in the edit menu.
+  schema: (context) => {
+    // Json-schema for `args` parameter to `fn` above, used to generate a form in the edit menu.
     return {
       type: "object",
       required: [],
       properties: {},
       additionalProperties: false,
     };
-  }
+  },
 };
 
 export const elements = {
@@ -66,7 +67,7 @@ export const elements = {
     // Units used on x-axes
     dist: {
       title: { text: "distance (m)" },
-    }
+    },
   },
   yaxis: {
     // Units used on y-axes
@@ -75,25 +76,25 @@ export const elements = {
         text: "temperature (deg c)",
       },
     },
-  }
+  },
 };
 
 const initial_layout = {
-  "layout": {
-    "grid": {
-      "columns": 2,
-      "pattern": "independent",
-      "roworder": "bottom to top",
-      "rows": 2,
-      "subplots": [
+  layout: {
+    grid: {
+      columns: 2,
+      pattern: "independent",
+      roworder: "bottom to top",
+      rows: 2,
+      subplots: [
         ["xy", "x2y2"],
-        ["x3y3", "x4y4"]
+        ["x3y3", "x4y4"],
       ],
-      "xgap": 0,
-      "ygap": 0.0
-    }
+      xgap: 0,
+      ygap: 0.0,
+    },
   },
-  "traces": [{ "Radial temperature": { "xaxis": "x", "yaxis": "y" } }]
+  traces: [{ "Radial temperature": { xaxis: "x", yaxis: "y" } }],
 };
 
 const PlotContainer = () => {
@@ -103,8 +104,8 @@ const PlotContainer = () => {
   let context = {
     radial: {
       dist: [1, 2, 3],
-      temp: [30.2, 31.3, 30.9]
-    }
+      temp: [30.2, 31.3, 30.9],
+    },
   };
 
   return (
@@ -241,8 +242,7 @@ The `CustomMenu` component provides a custom context menu interface, allowing fo
 | `additionalMenuItems`   | Additional items to be added to the custom menu.                                                                                                                                                                                                         | Array<Object>   | `[]`                     | No       |
 | `customSubplotEditor`   | A custom component for editing subplot details. If provided, this component replaces the default editor and must be capable of handling props for `plot`, `setPlot`, `elements`, `context`, and `subplotName` to interact with the plot's configuration. | React.Component | `DefaultSubplotEditor`   | No       |
 | `customColoraxisEditor` | A custom component for editing the color axis details. Similar to `customSubplotEditor`, this replaces the default color axis editor and must interface with the same props expected by the default editor.                                              | React.Component | `DefaultColoraxisEditor` | No       |
-
-| `useDefaultSchema` | Determines if the default or full Plotly schema should be used for the color axis editor. | Boolean | `true` | No |
+| `useDefaultSchema`      | Determines if the default or full Plotly schema should be used for the color axis editor.                                                                                                                                                                | Boolean         | `true`                   | No       |
 
 Note: When using `customSubplotEditor` or `customColoraxisEditor`, ensure that the custom components you provide are designed to interact with the plot's data structure and update functions as the default editors do. If no custom editors are provided, `CustomMenu` utilizes its built-in editors that are already equipped to handle the necessary props and provide the appropriate UI for editing subplot and color axis details.
 
