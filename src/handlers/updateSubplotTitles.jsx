@@ -36,9 +36,6 @@ export const updateSubplotTitles = (
 
       matchedTitles.forEach((matchedTitle) => {
         if (matchedTitle && matchedTitle[1]) {
-          /*console.log(
-            `Matching ${key} with ${matchedTitle[0]} for title: ${matchedTitle[1]}`
-          );*/
           if (!updatedPlot.layout[key]) {
             updatedPlot.layout[key] = {};
           }

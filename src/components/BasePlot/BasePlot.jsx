@@ -91,7 +91,6 @@ const BasePlot = ({
 
   const onAfterPlot = () => {
     if (plotRef.current && plotConfig && plotConfig.layout) {
-      console.log("XXXXXXXXXXXXXXXXXXXXXXXXXX", plotRef.current.layout);
       const positions = calculatePlotElementsPositions(
         plotRef.current,
         plotConfig.layout

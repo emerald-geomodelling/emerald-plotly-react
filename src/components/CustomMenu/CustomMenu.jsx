@@ -48,12 +48,9 @@ const CustomMenu = ({
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
   const handleShowCustomMenuOnClick = (item) => {
-    console.log(`${item.label} clicked`);
-    console.log("element clicked:", element, "elements", elements);
     if (showPopup) {
       setShowPopup(false);
     } else {
-      console.log(`Content for ${item.label}:`, item.content);
       setShowPopup(true);
       setPopupContent(item.content);
       setPopupPosition({

@@ -41,9 +41,7 @@ const AxisRangeInput = ({ plotRef, subplotZooms, setSubplotZooms }) => {
   const boxWidth = 208;
   const boxHeight = 81.5;
 
-  console.log(subplotZooms);
   const handleZoomChange = () => {
-    console.log(clickedAxis, desiredRange, desiredRangeMin, subplotZooms);
     setShowAxisRangeInput(false);
     if (setAxisZoomRange) {
       setAxisZoomRange({
