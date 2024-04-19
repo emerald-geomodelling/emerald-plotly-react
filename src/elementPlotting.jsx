@@ -206,7 +206,7 @@ export const instantiate_plot = function (
       );
       try {
         instantiate_trace(trace, {});
-      } catch (e) {
+      } catch (err) {
         if (!ignore_errors) throw err;
         console.error(err);
       }
@@ -215,7 +215,7 @@ export const instantiate_plot = function (
         missing_subplots[trace[name].xaxis + " " + trace[name].yaxis] = true;
         try {
           instantiate_trace(name, trace[name]);
-        } catch (e) {
+        } catch (err) {
           if (!ignore_errors) throw err;
           console.error(err);
         }
