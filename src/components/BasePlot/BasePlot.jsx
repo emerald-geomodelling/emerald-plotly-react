@@ -139,6 +139,7 @@ const BasePlot = ({
       displaylogo: false,
       displayModeBar: useDefaultModebar,
       doubleClick: false,
+      scrollZoom: true,
     }),
     [useDefaultModebar]
   );
