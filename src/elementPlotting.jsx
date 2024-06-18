@@ -168,7 +168,7 @@ export const instantiate_plot = function (
     if (tracedef.fn) {
       res.traces.push.apply(
         res.traces,
-        tracedef.fn(context, args).map(function (trace) {
+        tracedef.fn(context, args, elements).map(function (trace) {
           trace.xaxis = args.xaxis;
           trace.yaxis = args.yaxis;
           trace.xaxis_unit = tracedef.xaxis;
@@ -182,7 +182,7 @@ export const instantiate_plot = function (
     if (tracedef.shapes) {
       res.layout.shapes.push.apply(
         res.layout.shapes,
-        tracedef.shapes(context, args).map(function (shape) {
+        tracedef.shapes(context, args, elements).map(function (shape) {
           if (shape.xref === undefined || shape.xref === "x")
             shape.xref = args.xaxis;
           if (shape.yref === undefined || shape.yref === "y")
