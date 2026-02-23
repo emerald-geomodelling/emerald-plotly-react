@@ -306,7 +306,7 @@ export const subplot_specification = (axis, plot_specification) => {
       return (
         args.xaxis === subplot.xaxis &&
         args.yaxis === subplot.yaxis &&
-        Object.keys(trace) !== "none"
+        !Object.keys(trace).includes("none")
       );
     })
     .map((trace) => {
