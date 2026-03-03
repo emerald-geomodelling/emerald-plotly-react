@@ -140,6 +140,7 @@ const BasePlot = ({
       displayModeBar: useDefaultModebar,
       doubleClick: false,
       scrollZoom: true,
+      plotGlPixelRatio: 1,
     }),
     [useDefaultModebar]
   );
