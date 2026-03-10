@@ -295,6 +295,68 @@ export const instantiate_plot = function (
     }
   });
 
+  // Split shared y-axes across x-axis columns.
+  // When a y-axis appears in multiple columns of the subplot grid (e.g. xy5
+  // and x2y5), Plotly renders tick labels only at the axis anchor position —
+  // typically the left column. To show tick labels in every column we replace
+  // the shared reference with an independent axis linked via "matches" so
+  // zoom stays synchronised.
+  if (res.layout.grid?.subplots) {
+    const yaxisCols = {};
+    res.layout.grid.subplots.forEach((row, ri) => {
+      if (!Array.isArray(row)) return;
+      row.forEach((cell, ci) => {
+        if (!cell) return;
+        const { xaxis: xa, yaxis: ya } = split_axis_tracename(cell);
+        if (!yaxisCols[ya]) yaxisCols[ya] = {};
+        if (!yaxisCols[ya][xa]) yaxisCols[ya][xa] = [];
+        yaxisCols[ya][xa].push({ ri, ci });
+      });
+    });
+
+    const usedNums = new Set([1]);
+    Object.keys(res.layout).forEach((k) => {
+      const m = k.match(/^yaxis(\d*)$/);
+      if (m) usedNums.add(m[1] ? parseInt(m[1]) : 1);
+    });
+    res.traces.forEach((t) => {
+      if (t.yaxis) {
+        const n = t.yaxis === "y" ? 1 : parseInt(t.yaxis.slice(1));
+        if (!isNaN(n)) usedNums.add(n);
+      }
+    });
+    let nextY = Math.max(...usedNums) + 1;
+
+    Object.entries(yaxisCols).forEach(([ya, xaMap]) => {
+      const xaxes = Object.keys(xaMap);
+      if (xaxes.length <= 1) return;
+
+      const origLayout = axis_tracename2layoutname(ya);
+
+      xaxes.slice(1).forEach((xa) => {
+        const num = nextY++;
+        const newY = "y" + num;
+        const newLayout = "yaxis" + num;
+
+        res.layout[newLayout] = res.layout[origLayout]
+          ? JSON.parse(JSON.stringify(res.layout[origLayout]))
+          : {};
+        res.layout[newLayout].matches = ya;
+        res.layout[newLayout].showticklabels = true;
+
+        xaMap[xa].forEach(({ ri, ci }) => {
+          res.layout.grid.subplots[ri][ci] = xa + newY;
+        });
+
+        res.traces.forEach((t) => {
+          if (t.yaxis === ya && t.xaxis === xa) {
+            t.yaxis = newY;
+          }
+        });
+      });
+    });
+  }
+
   return res;
 };
 
