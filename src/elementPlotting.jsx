@@ -395,6 +395,7 @@ export const subplot_elements = (
       );
     })
     .map((trace) => Object.keys(trace)[0])
+    .filter((name) => elements.traces[name])
     .map((name) => elements.traces[name].xaxis);
   const yaxis_units = plot_specification.traces
     .filter((trace) => {
@@ -404,6 +405,7 @@ export const subplot_elements = (
       );
     })
     .map((trace) => Object.keys(trace)[0])
+    .filter((name) => elements.traces[name])
     .map((name) => elements.traces[name].yaxis);
 
   const all_component_names = Object.keys(elements.traces).filter(
@@ -459,15 +461,42 @@ export const subplot_schema = (axis, plot_specification, elements, context) => {
   const { allowed_component_names, disabled_component_names } =
     subplot_elements(axis, plot_specification, elements, context);
 
+  let anyOf = allowed_component_names
+    .map((name) => component_schema(name, elements, context))
+    .filter((schema) => schema !== false);
+
+  let disabledAnyOf = disabled_component_names
+    .map((name) => component_schema(name, elements, context))
+    .filter((schema) => schema !== false);
+
+  // If no axis-compatible elements have valid schemas, promote the
+  // axis-mismatched elements so the user can still add something.
+  // instantiate_plot runs with ignore_errors=true so mismatches are
+  // logged, not thrown.
+  if (anyOf.length === 0 && disabledAnyOf.length > 0) {
+    anyOf = disabledAnyOf;
+    disabledAnyOf = [];
+  }
+
+  // Last resort: ensure anyOf is never empty — the JSON editor cannot
+  // handle an empty anyOf and shows a cryptic validation error.
+  if (anyOf.length === 0) {
+    anyOf.push({
+      type: "object",
+      title: "none",
+      required: ["none"],
+      additionalProperties: false,
+      properties: {
+        none: { type: "object", additionalProperties: false, title: "none" },
+      },
+    });
+  }
+
   return {
     type: "array",
     items: {
-      anyOf: allowed_component_names
-        .map((name) => component_schema(name, elements, context))
-        .filter((schema) => schema !== false),
-      disabledAnyOf: disabled_component_names
-        .map((name) => component_schema(name, elements, context))
-        .filter((schema) => schema !== false),
+      anyOf,
+      disabledAnyOf,
     },
   };
 };
