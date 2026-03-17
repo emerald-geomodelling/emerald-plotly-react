@@ -19,9 +19,12 @@
  and "yaxis" keys. These will be applied to the actual axis the
  component is used for (using the Plotly "layout" parameter).
 
- Note: elements sharing an axis, must have the same unit name for
- that axis! This is enforced, and mixing elements with different
- axis units will throw an exception.
+ Note: elements sharing an axis in the same subplot cell must have the
+ same unit name for that axis! This is enforced, and mixing elements
+ with different axis units in the same cell will throw an exception.
+ Elements in different grid columns sharing a y-axis name are allowed
+ to have different units — the y-axis splitting code will give each
+ column its own independent axis.
 
  ## Format description for plot ##
 
@@ -121,49 +124,93 @@ export const instantiate_plot = function (
   res.traces = [];
   res.layout.shapes = [];
 
+  // Pre-compute which axes span multiple grid columns/rows.
+  // Used to make unit validation column-aware: traces in different
+  // columns of the same y-axis can have different units because the
+  // splitting code (below) will give each column its own axis.
+  const gridYaxisCols = {};
+  const gridXaxisRows = {};
+  if (plot.layout?.grid?.subplots) {
+    plot.layout.grid.subplots.forEach((row) => {
+      if (!Array.isArray(row)) return;
+      row.forEach((cell) => {
+        if (!cell) return;
+        const { xaxis: xa, yaxis: ya } = split_axis_tracename(cell);
+        if (!gridYaxisCols[ya]) gridYaxisCols[ya] = new Set();
+        gridYaxisCols[ya].add(xa);
+        if (!gridXaxisRows[xa]) gridXaxisRows[xa] = new Set();
+        gridXaxisRows[xa].add(ya);
+      });
+    });
+  }
+
+  // Column-qualified validation key: when a y-axis spans multiple
+  // columns, qualify with x-axis so each column validates independently.
+  const yaxisKey = (ya, xa) =>
+    gridYaxisCols[ya]?.size > 1 ? ya + "@" + xa : ya;
+  const xaxisKey = (xa, ya) =>
+    gridXaxisRows[xa]?.size > 1 ? xa + "@" + ya : xa;
+
+  // Track per-column y-axis units for the splitting code to use
+  const yaxisColUnit = {};
+
   var instantiate_trace = function (name, args) {
     var tracedef = name === "none" ? none_tracedef : elements.traces[name];
     if (tracedef === undefined) {
       throw new Error(`component ${name} does not exist`);
     }
     if (!tracedef.xaxis) {
-    } else if (xaxis[args.xaxis] === undefined) {
-      xaxis[args.xaxis] = tracedef.xaxis;
-      var layoutname = axis_tracename2layoutname(args.xaxis);
-      if (res.layout[layoutname] === undefined) res.layout[layoutname] = {};
-      Object.assign(res.layout[layoutname], elements.xaxis[tracedef.xaxis]);
     } else {
-      if (xaxis[args.xaxis] !== tracedef.xaxis) {
-        throw new Error(
-          `Component trace has different x axis unit to existing elements in the same subplot.
+      const xkey = xaxisKey(args.xaxis, args.yaxis);
+      if (xaxis[xkey] === undefined) {
+        xaxis[xkey] = tracedef.xaxis;
+        var layoutname = axis_tracename2layoutname(args.xaxis);
+        if (res.layout[layoutname] === undefined) res.layout[layoutname] = {};
+        Object.assign(res.layout[layoutname], elements.xaxis[tracedef.xaxis]);
+      } else {
+        if (xaxis[xkey] !== tracedef.xaxis) {
+          throw new Error(
+            `Component trace has different x axis unit to existing elements in the same subplot.
           X axis: ${args.xaxis}
           Component: ${name}
           Component unit: ${tracedef.xaxis}
-          Existing unit: ${xaxis[args.xaxis]}
+          Existing unit: ${xaxis[xkey]}
           `
-        );
+          );
+        }
       }
     }
     if (!tracedef.yaxis) {
-    } else if (yaxis[args.yaxis] === undefined) {
-      yaxis[args.yaxis] = tracedef.yaxis;
-      layoutname = axis_tracename2layoutname(args.yaxis);
-      if (res.layout[layoutname] === undefined) res.layout[layoutname] = {};
-      res.layout[layoutname] = merge(
-        res.layout[layoutname],
-        elements.yaxis[tracedef.yaxis]
-      );
     } else {
-      if (yaxis[args.yaxis] !== tracedef.yaxis) {
-        throw new Error(
-          `Component trace has different y axis unit to existing elements in the same subplot.
+      const ykey = yaxisKey(args.yaxis, args.xaxis);
+      if (yaxis[ykey] === undefined) {
+        yaxis[ykey] = tracedef.yaxis;
+        layoutname = axis_tracename2layoutname(args.yaxis);
+        if (res.layout[layoutname] === undefined) res.layout[layoutname] = {};
+        // Only apply axis layout config for the first column (when qualified
+        // key matches unqualified). The splitting code applies the correct
+        // config for subsequent columns.
+        if (ykey === args.yaxis) {
+          res.layout[layoutname] = merge(
+            res.layout[layoutname],
+            elements.yaxis[tracedef.yaxis]
+          );
+        }
+      } else {
+        if (yaxis[ykey] !== tracedef.yaxis) {
+          throw new Error(
+            `Component trace has different y axis unit to existing elements in the same subplot.
           Y axis: ${args.yaxis}
           Component: ${name}
           Component unit: ${tracedef.yaxis}
-          Existing unit: ${yaxis[args.yaxis]}
+          Existing unit: ${yaxis[ykey]}
           `
-        );
+          );
+        }
       }
+      // Track per-column unit for the splitting code
+      if (!yaxisColUnit[args.yaxis]) yaxisColUnit[args.yaxis] = {};
+      yaxisColUnit[args.yaxis][args.xaxis] = tracedef.yaxis;
     }
     if (tracedef.fn) {
       res.traces.push.apply(
@@ -300,7 +347,8 @@ export const instantiate_plot = function (
   // and x2y5), Plotly renders tick labels only at the axis anchor position —
   // typically the left column. To show tick labels in every column we replace
   // the shared reference with an independent axis linked via "matches" so
-  // zoom stays synchronised.
+  // zoom stays synchronised (when units match) or fully independent (when
+  // units differ).
   if (res.layout.grid?.subplots) {
     const yaxisCols = {};
     res.layout.grid.subplots.forEach((row, ri) => {
@@ -332,17 +380,34 @@ export const instantiate_plot = function (
       if (xaxes.length <= 1) return;
 
       const origLayout = axis_tracename2layoutname(ya);
+      const firstColXa = xaxes[0];
 
       xaxes.slice(1).forEach((xa) => {
         const num = nextY++;
         const newY = "y" + num;
         const newLayout = "yaxis" + num;
 
-        res.layout[newLayout] = res.layout[origLayout]
-          ? JSON.parse(JSON.stringify(res.layout[origLayout]))
-          : {};
-        res.layout[newLayout].matches = ya;
+        // Check if this column has a different unit than the first column
+        const colUnit = yaxisColUnit[ya]?.[xa];
+        const firstColUnit = yaxisColUnit[ya]?.[firstColXa];
+        const unitsDiffer = colUnit && firstColUnit && colUnit !== firstColUnit;
+
+        if (unitsDiffer) {
+          // Different units: apply the correct unit's axis config,
+          // do NOT set matches (independent zoom)
+          res.layout[newLayout] = elements.yaxis[colUnit]
+            ? JSON.parse(JSON.stringify(elements.yaxis[colUnit]))
+            : {};
+        } else {
+          // Same units: copy from original, link via matches for synced zoom
+          res.layout[newLayout] = res.layout[origLayout]
+            ? JSON.parse(JSON.stringify(res.layout[origLayout]))
+            : {};
+          res.layout[newLayout].matches = ya;
+        }
         res.layout[newLayout].showticklabels = true;
+        // Tag with original axis name so the settings wheel can map back
+        res.layout[newLayout]._originalYaxis = ya;
 
         xaMap[xa].forEach(({ ri, ci }) => {
           res.layout.grid.subplots[ri][ci] = xa + newY;
@@ -387,11 +452,16 @@ export const subplot_elements = (
 ) => {
   const subplot = split_axis_tracename(axis);
 
+  // Filter by both axes to scope to the exact subplot cell.
+  // This ensures traces in different grid columns with different units
+  // don't constrain each other's allowed trace types.
   const xaxis_units = plot_specification.traces
     .filter((trace) => {
       const args = Object.values(trace)[0];
       return (
-        args.xaxis === subplot.xaxis && !Object.keys(trace).includes("none")
+        args.xaxis === subplot.xaxis &&
+        args.yaxis === subplot.yaxis &&
+        !Object.keys(trace).includes("none")
       );
     })
     .map((trace) => Object.keys(trace)[0])
@@ -401,7 +471,9 @@ export const subplot_elements = (
     .filter((trace) => {
       const args = Object.values(trace)[0];
       return (
-        args.yaxis === subplot.yaxis && !Object.keys(trace).includes("none")
+        args.xaxis === subplot.xaxis &&
+        args.yaxis === subplot.yaxis &&
+        !Object.keys(trace).includes("none")
       );
     })
     .map((trace) => Object.keys(trace)[0])
