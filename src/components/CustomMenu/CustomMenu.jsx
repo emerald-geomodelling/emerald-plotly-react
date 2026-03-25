@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Cog6ToothIcon, ListBulletIcon } from "@heroicons/react/24/outline";
+import { Cog6ToothIcon, ListBulletIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import CustomMenuPopup from "./CustomMenuPopup";
 import DefaultSubplotEditor from "../DefaultSubplotEditor";
 import DefaultColoraxisEditor from "../DefaultColoraxisEditor";
@@ -38,6 +38,10 @@ const CustomMenu = ({
   context,
   setShowLegend,
   setSelectedElement,
+  showLegend,
+  selectedElement,
+  onSelectAll,
+  onDeselectAll,
   additionalMenuItems,
   customSubplotEditor,
   customColoraxisEditor,
@@ -120,6 +124,20 @@ const CustomMenu = ({
             onClick: () => handleLegendOnClick(element),
             label: "toggle legend",
           },
+          ...(showLegend && selectedElement === element.subplotName
+            ? [
+                {
+                  icon: <EyeIcon className="iconStyle" />,
+                  onClick: () => onSelectAll && onSelectAll(element.subplotName),
+                  label: "show all",
+                },
+                {
+                  icon: <EyeSlashIcon className="iconStyle" />,
+                  onClick: () => onDeselectAll && onDeselectAll(element.subplotName),
+                  label: "hide all",
+                },
+              ]
+            : []),
         ];
 
   const style = {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Plot from "react-plotly.js";
 
 import {
@@ -23,6 +23,9 @@ const BasePlot = ({
   currentDragMode = null,
   selections = null,
   setSelections = null,
+
+  hiddenTraceNames = null, // externally managed hidden traces (Set of trace names)
+  setHiddenTraceNames = null, // setter for external hidden traces state
 
   ignore_errors = true,
   onPlotUpdate = null, // Callback for plot updates
@@ -54,6 +57,7 @@ const BasePlot = ({
   const plotRef = useRef(null);
 
   const [localSubplotZooms, setLocalSubplotZooms] = useState(null);
+  const [localHiddenTraces, setLocalHiddenTraces] = useState(new Set());
 
   const handleSetSubplotZooms = (zoomData) => {
     if (setSubplotZooms) {
@@ -64,6 +68,50 @@ const BasePlot = ({
   };
 
   const effectiveSubplotZooms = subplotZooms || localSubplotZooms;
+  const effectiveHiddenTraces = hiddenTraceNames || localHiddenTraces;
+  const effectiveSetHiddenTraces = setHiddenTraceNames || setLocalHiddenTraces;
+
+  const handleLegendClick = useCallback((event) => {
+    const traceName = event.data[event.curveNumber]?.name;
+    if (!traceName) return true;
+
+    effectiveSetHiddenTraces((prev) => {
+      const next = new Set(prev);
+      if (next.has(traceName)) {
+        next.delete(traceName);
+      } else {
+        next.add(traceName);
+      }
+      return next;
+    });
+    return false; // prevent Plotly's default legend toggle
+  }, [effectiveSetHiddenTraces]);
+
+  const handleSelectAllTraces = useCallback((subplot) => {
+    if (!plotConfig) return;
+    const tracesInSubplot = plotConfig.traces.filter(
+      (t) => `${t.xaxis}${t.yaxis}` === subplot && t.showlegend
+    );
+    const names = new Set(tracesInSubplot.map((t) => t.name));
+    effectiveSetHiddenTraces((prev) => {
+      const next = new Set(prev);
+      names.forEach((n) => next.delete(n));
+      return next;
+    });
+  }, [plotConfig, effectiveSetHiddenTraces]);
+
+  const handleDeselectAllTraces = useCallback((subplot) => {
+    if (!plotConfig) return;
+    const tracesInSubplot = plotConfig.traces.filter(
+      (t) => `${t.xaxis}${t.yaxis}` === subplot && t.showlegend
+    );
+    const names = new Set(tracesInSubplot.map((t) => t.name));
+    effectiveSetHiddenTraces((prev) => {
+      const next = new Set(prev);
+      names.forEach((n) => next.add(n));
+      return next;
+    });
+  }, [plotConfig, effectiveSetHiddenTraces]);
 
   usePlotConfiguration(
     plot,
@@ -73,7 +121,8 @@ const BasePlot = ({
     effectiveSubplotZooms,
     showLegend,
     selectedElement,
-    setPlotConfig
+    setPlotConfig,
+    effectiveHiddenTraces
   );
 
   useEffect(() => {
@@ -165,6 +214,7 @@ const BasePlot = ({
         onAfterPlot={onAfterPlot}
         onSelected={onSelected}
         onRelayout={onRelayout}
+        onLegendClick={handleLegendClick}
         {...restProps}
       />
 
@@ -178,6 +228,10 @@ const BasePlot = ({
           context={context}
           setShowLegend={setShowLegend}
           setSelectedElement={setSelectedElement}
+          showLegend={showLegend}
+          selectedElement={selectedElement}
+          onSelectAll={handleSelectAllTraces}
+          onDeselectAll={handleDeselectAllTraces}
           additionalMenuItems={additionalMenuItems}
           customSubplotEditor={customSubplotEditor}
           customColoraxisEditor={customColoraxisEditor}

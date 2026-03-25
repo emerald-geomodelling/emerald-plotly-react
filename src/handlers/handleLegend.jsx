@@ -1,7 +1,8 @@
 export const getUpdatedTracesForLegendGroups = (
   plotdef,
   showLegend,
-  selectedElement
+  selectedElement,
+  hiddenTraceNames
 ) => {
   return plotdef.traces.map((trace) => {
     const elementIdentifier = `${trace.xaxis}${trace.yaxis}`;
@@ -9,9 +10,12 @@ export const getUpdatedTracesForLegendGroups = (
     const shouldShowLegend =
       showLegend && elementIdentifier === selectedElement;
 
+    const isHidden = hiddenTraceNames && hiddenTraceNames.has(trace.name);
+
     return {
       ...trace,
       showlegend: shouldShowLegend,
+      ...(isHidden ? { visible: "legendonly" } : {}),
     };
   });
 };
@@ -19,12 +23,14 @@ export const getUpdatedTracesForLegendGroups = (
 export const initializeLegendForPlot = (
   plotdef,
   showLegend,
-  selectedElement
+  selectedElement,
+  hiddenTraceNames
 ) => {
   const updatedTraces = getUpdatedTracesForLegendGroups(
     plotdef,
     showLegend,
-    selectedElement
+    selectedElement,
+    hiddenTraceNames
   );
   return {
     ...plotdef,

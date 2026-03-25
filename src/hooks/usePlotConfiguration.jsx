@@ -14,7 +14,8 @@ export const usePlotConfiguration = (
   subplotZooms,
   showLegend,
   selectedElement,
-  setPlotConfig
+  setPlotConfig,
+  hiddenTraceNames
 ) => {
   useEffect(() => {
     if (!context || !plot) {
@@ -38,8 +39,9 @@ export const usePlotConfiguration = (
     instantiatedPlot = initializeLegendForPlot(
       instantiatedPlot,
       showLegend,
-      selectedElement
+      selectedElement,
+      hiddenTraceNames
     );
     setPlotConfig(instantiatedPlot);
-  }, [context, plot, ignore_errors, elements, subplotZooms, showLegend]); // eslint-disable-line
+  }, [context, plot, ignore_errors, elements, subplotZooms, showLegend, hiddenTraceNames]); // eslint-disable-line
 };
